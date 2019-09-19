@@ -1,0 +1,49 @@
+ _   _   _  ___ _____ _____ ____    _ 
+| | | \ | |/ _ \_   _| ____/ ___|  | |
+| | |  \| | | | || | |  _| \___ \  | |
+| | | |\  | |_| || | | |___ ___) | | |
+| | |_| \_|\___/ |_| |_____|____/  | |
+|_|                                |_|
+
+MAIN AIM IS TO STUDY THE FOLLOWING REGRESSION METHODS
+    o   OLS
+    o   Ridge regression 
+    o   Lasso regression
+
+
+First point of focus is to fit polynomials to a specific 2-dim func called
+"" Franke's function ""    -   defined for x,y \in [0, 1]. 
+
+First step is performing an OLS regression analysis of the function, attempting 
+a polynomial fit with
+    o    y dependence of [x, y, x**2, y**2, xy, ...].
+
+Include // cross validation // as resampling technique.
+    o   either uniform distribution for x and y
+    o   or linspace distribution for x and y
+
+///////////////
+o   Fit a function e.g. polynomial, of x and y. 
+o   much the same for Ridge and Lasso -> introducing dependence on bias(penalty) \lambda
+o   finally, use (real) digital terrain data and try to reproduce these with the same methods. 
+o   Also try to go beyond 2nd order polynomials mentioned above, to see which order best fits the data. 
+//////////////
+
+////////    Part (a)    ////////
+    o   Generate own dataset for Franke's function with x, y \in [0, 1]
+
+    v   Also explore added stochastic noise to function using normal distribution N(0,1)
+
+    v   Perform a standard least square regression analysis with polynomials in x and y up to // 5th order //
+
+    o   Find confidence intervals of param \beta through computing their variances. 
+
+    o   Evaluate Mean Squared Error (MSE) 
+        $   MSE(y, y_pred) = (1/n)*\sum[0][n-1](y_i - y_pred_i)^2
+
+    o   And the R**2 score function. y_pred is predicted val, y is true val. R**2 is then
+        $   R^2(y, y_pred) = 1 - (  \sum[i=0][n-1] (y_i - y_pred_i)^2   )/( \sum[i=0][n-1] (y_i - y_mean)^2 )
+        y_mean defined as:
+        $   y_mean = (1/n)*\sum[i=0][n-1] y_i
+////////////// 
+
