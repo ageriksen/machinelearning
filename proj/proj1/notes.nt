@@ -30,18 +30,18 @@ o   Also try to go beyond 2nd order polynomials mentioned above, to see which or
 //////////////
 
 ////////    Part (a)    ////////
-    o   Generate own dataset for Franke's function with x, y \in [0, 1]
+    v   Generate own dataset for Franke's function with x, y \in [0, 1]
 
     v   Also explore added stochastic noise to function using normal distribution N(0,1)
 
     v   Perform a standard least square regression analysis with polynomials in x and y up to // 5th order //
 
-    o   Find confidence intervals of param \beta through computing their variances. 
+    v   Find confidence intervals of param \beta through computing their variances. 
 
-    o   Evaluate Mean Squared Error (MSE) 
+    v   Evaluate Mean Squared Error (MSE) 
         $   MSE(y, y_pred) = (1/n)*\sum[0][n-1](y_i - y_pred_i)^2
 
-    o   And the R**2 score function. y_pred is predicted val, y is true val. R**2 is then
+    v   And the R**2 score function. y_pred is predicted val, y is true val. R**2 is then
         $   R^2(y, y_pred) = 1 - (  \sum[i=0][n-1] (y_i - y_pred_i)^2   )/( \sum[i=0][n-1] (y_i - y_mean)^2 )
         y_mean defined as:
         $   y_mean = (1/n)*\sum[i=0][n-1] y_i
