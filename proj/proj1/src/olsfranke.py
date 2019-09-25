@@ -39,27 +39,16 @@ def Designmatrix(x, y, n=5):
     
     return X
 
-def confidence(beta, confidence=1.96):
-    weight = confidence*np.var(beta)
+def confidence(beta, X, confidence=1.96):
+    weight = np.sqrt( np.diag( np.linalg.inv( X.T @ X ) ) )*confidence
     betamin = beta - weight
     betamax = beta + weight
     return betamin, betamax
 
-def rsquared(y, y_pred):
+def Rsquared(y, y_pred):
     return 1 - ( np.sum( (y - y_pred)**2 )/np.sum( (y - np.mean(y))**2 ) )
 #   ///////     /////// 
 
-
-#   ///////   make data   ///////   
-row             =   np.arange(0, 1, 0.05)
-col             =   np.arange(0, 1, 0.05)
-x_plot, y_plot  =   np.meshgrid(row,col)
-#   Noise
-noiseSTR = .05
-noise           =   np.random.randn(len(row), len(col))
-#
-z_plot          =   Frankefunction(x_plot, y_plot) + (noiseSTR * noise)
-#   ///////     /////// 
 #   ///////   make random data   ///////   
 nrow = 100
 ncol = 200
@@ -74,7 +63,7 @@ colsort         =       rand_col[sortcolindex]
 
 colmat, rowmat  =       np.meshgrid(colsort, rowsort)
 
-noiseSTR        =       .05
+noiseSTR        =       1
 noise           =       np.random.randn(nrow, ncol)
 
 zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise
@@ -93,14 +82,18 @@ X               =       Designmatrix(rowarr, colarr, n)
 
 #   ///////    Linear regression   ///////   
 beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr
-CImin, CImax    =       confidence(beta)
-z_pred          =       X @ beta
-z_pred_plot     =       z_pred.reshape(nrow, ncol)
+zarr_pred       =       X @ beta
+zmat_pred       =       zarr_pred.reshape(nrow, ncol)
 #   ///////     /////// 
 
 #   ///////   Error   ///////   
-MSE             =       1/len(z_pred) * np.linalg.norm( zarr - z_pred )**2
-print( "MSE is: ", MSE )
+CImin, CImax    =       confidence(beta, X)
+MSE             =       1/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2
+RR              =       Rsquared(zarr, zarr_pred)
+print(  "\nMSE is: ",       MSE, 
+        '\nR^2 is: ',       RR, 
+        '\nCI_min:\n',      CImin, 
+        '\nCI_max:\n',      CImax   )
 #   ///////     /////// 
 
 #   ///////   Plot   ///////   
@@ -110,15 +103,19 @@ ax      =   fig.add_subplot(1, 2, 1, projection='3d')
 surf    =   ax.plot_surface(
             rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 fig.colorbar(surf, shrink=0.5, aspect=5)
-#plt.title('Franke')
 plt.title('Measurement')
 
 ax      =   fig.add_subplot(1, 2, 2, projection='3d')
 surf    =   ax.plot_surface(
-            rowmat, colmat, z_pred_plot, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+            rowmat, colmat, zmat_pred, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 fig.colorbar(surf, shrink=0.5, aspect=5)
-#plt.title('Fitted Franke')
 plt.title('OLS fit')
+
+plt.figure()
+plt.plot(beta, label=r'$\beta$')
+plt.plot(CImin, label=r'$\beta_{min}$')
+plt.plot(CImax, label=r'$\beta_{max}$')
+plt.legend()
 
 plt.show()
 #   ///////     /////// 
