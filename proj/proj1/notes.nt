@@ -29,6 +29,9 @@ o   finally, use (real) digital terrain data and try to reproduce these with the
 o   Also try to go beyond 2nd order polynomials mentioned above, to see which order best fits the data. 
 //////////////
 
+////////    Part (b)    ////////
+    o   
+////////////// 
 ////////    Part (a)    ////////
     v   Generate own dataset for Franke's function with x, y \in [0, 1]
 
