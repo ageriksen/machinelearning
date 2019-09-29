@@ -1,0 +1,37 @@
+\documentclass[
+    12pt, %main doc font size
+    a4paper, 
+    ]{article}
+
+%\title{\normalfont\spacedallcaps{Title here}}
+%\subtitle{subtitle here}
+
+%\author{Barholomew Finch}
+%\date{}
+
+%//////////////////////
+\begin{document}
+%=====
+%table of contents, list of figs and content
+%\maketitle
+%\tableofcontents
+%\listoffigures
+%\listoftables
+%=====
+\section{Design Matrix}
+
+\subsection{Initial description}
+The design matrix is what relates the criteria $\vec{\beta}$ to a prediction of outcomes, $\vec{\tilde{y}}$.
+\begin{equation}
+    \vec{\tilde{y}} = \hat{X}\,\vec{\beta}
+\end{equation}
+And through manipulations of this relation, one can tweak $\beta$ to arive at a good prediction for $y$ on a 
+statistical level. The accuracy of the prediction can then be measured through analysing the average errors between
+prediction and the known \it{training values}. 
+
+%notes:
+% The design matrix is composed of a set of independent variables of various "objects".
+% Each row pertains to 1 object. Each collumn corresponds to a different independent variable, with their
+%   respective value for the object on the row. 
+\end{document}
+%/////////////////////
