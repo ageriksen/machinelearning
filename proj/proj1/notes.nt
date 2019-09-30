@@ -27,10 +27,18 @@ o   Fit a function e.g. polynomial, of x and y.
 o   much the same for Ridge and Lasso -> introducing dependence on bias(penalty) \lambda
 o   finally, use (real) digital terrain data and try to reproduce these with the same methods. 
 o   Also try to go beyond 2nd order polynomials mentioned above, to see which order best fits the data. 
+
 //////////////
 
 ////////    Part (b)    ////////
     o   
+Q's 
+-   np.reshape(-1,1) what does this mean?
+-   in the example, the train_test_split for cross validation cals 
+    the values trainz and testz. They are never used. except for y_testz, which
+    determines the length of y_pred.
+-   To what degree can one use KFold, make_pipeline, PolynomialFeatures and
+    LinearRegression from sklearn?
 ////////////// 
 ////////    Part (a)    ////////
     v   Generate own dataset for Franke's function with x, y \in [0, 1]
