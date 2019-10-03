@@ -1,0 +1,66 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
+CImax	olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
+CImin	olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
+Designmatrix	olsfranke.py	/^def Designmatrix(x, y, n=5):$/;"	f
+Frankefunction	olsfranke.py	/^def Frankefunction(x, y):$/;"	f
+MSE	olsfranke.py	/^MSE             =       1\/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2$/;"	v
+N	cvfranke.py	/^N           =   1000#=   int(1e3)$/;"	v
+RR	olsfranke.py	/^RR              =       Rsquared(zarr, zarr_pred)$/;"	v
+Rsquared	olsfranke.py	/^def Rsquared(y, y_pred):$/;"	f
+X	cvfranke.py	/^X           =   np.sort(np.random.uniform(0,1,N)).reshape(-1,1)$/;"	v
+X	olsfranke.py	/^X               =       Designmatrix(rowarr, colarr, n)$/;"	v
+X_testz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
+X_trainz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
+arrsze	cvfranke.py	/^arrsze=len(y_testz)$/;"	v
+ax	olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 1, projection='3d')$/;"	v
+ax	olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 2, projection='3d')$/;"	v
+beta	olsfranke.py	/^beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr$/;"	v
+bi	cvfranke.py	/^bi      =   []$/;"	v
+colarr	olsfranke.py	/^colarr          =       colmat.ravel()$/;"	v
+colmat	olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+colsort	olsfranke.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
+confidence	olsfranke.py	/^def confidence(beta, X, confidence=1.96):$/;"	f
+degrees	cvfranke.py	/^degrees     =   np.arange(1, 16)$/;"	v
+err	cvfranke.py	/^err     =   []$/;"	v
+fig	olsfranke.py	/^fig = plt.figure()$/;"	v
+folds	cvfranke.py	/^folds = k_fold(X)$/;"	v
+function	cvfranke.py	/^def function(X):$/;"	f
+j	cvfranke.py	/^    j   =   0$/;"	v
+k	cvfranke.py	/^k           =   5$/;"	v
+k_fold	cvfranke.py	/^def k_fold(X, k=2):$/;"	f
+kfold	cvfranke.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
+model	cvfranke.py	/^    model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=F/;"	v
+n	olsfranke.py	/^n               =       5$/;"	v
+ncol	olsfranke.py	/^ncol = 200$/;"	v
+noise	cvfranke.py	/^noise       =   0.1$/;"	v
+noise	olsfranke.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
+noiseSTR	olsfranke.py	/^noiseSTR        =       1$/;"	v
+np	cvfranke.py	/^import numpy as np$/;"	I
+np	olsfranke.py	/^import numpy as np$/;"	I
+nrow	olsfranke.py	/^nrow = 100$/;"	v
+plt	cvfranke.py	/^import matplotlib.pyplot as plt$/;"	I
+plt	olsfranke.py	/^import matplotlib.pyplot as plt$/;"	I
+rand_col	olsfranke.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
+rand_row	olsfranke.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
+rowarr	olsfranke.py	/^rowarr          =       rowmat.ravel()$/;"	v
+rowmat	olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+rowsort	olsfranke.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
+sortcolindex	olsfranke.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
+sortrowindex	olsfranke.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
+surf	olsfranke.py	/^surf    =   ax.plot_surface($/;"	v
+vari	cvfranke.py	/^vari    =   []$/;"	v
+y	cvfranke.py	/^y           =   function(X).reshape(-1,1) + np.random.randn(len(X)).reshape(-1,1)*noise$/;"	v
+y_nonoise	cvfranke.py	/^y_nonoise   =   function(X)$/;"	v
+y_pred	cvfranke.py	/^    y_pred  =   np.empty(   (arrsze, k)  )$/;"	v
+y_testz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
+y_trainz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
+zarr	olsfranke.py	/^zarr            =       zmat.ravel()$/;"	v
+zarr_pred	olsfranke.py	/^zarr_pred       =       X @ beta$/;"	v
+zmat	olsfranke.py	/^zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise$/;"	v
+zmat_pred	olsfranke.py	/^zmat_pred       =       zarr_pred.reshape(nrow, ncol)$/;"	v

@@ -31,7 +31,8 @@ o   Also try to go beyond 2nd order polynomials mentioned above, to see which or
 //////////////
 
 ////////    Part (b)    ////////
-    o   
+    o   train_test_split
+    o   k-fold cross validation algorithm -> ????? how is this not train_test_split?
 Q's 
 -   np.reshape(-1,1) what does this mean?
 -   in the example, the train_test_split for cross validation cals 

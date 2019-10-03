@@ -18,40 +18,72 @@ from sklearn.linear_model import LinearRegression
 def function(X):
     return np.cos(1.5 * np.pi * X)
 
+def traintest(X, k=2, shuffle=True):
+    #foldsze = len(X)//k 
+    if len(X.shape) > 1:
+        X = np.ravel(X)
+    indices = np.arange(len(X))
+    if shuffle:
+        #print('indices pre shuffle:\n', indices)
+        np.random.shuffle(indices)
+        #print('indices post shuffle:\n', indices)
+    folds = np.split(indices, k)
+    return folds
+
 np.random.seed(2018)
 
 noise       =   0.1
 N           =   1000#=   int(1e3)
 k           =   5
 
-x           =   np.sort(np.random.uniform(0,1,N)).reshape(-1,1)
-y           =   function(x).reshape(-1,1) + np.random.randn(len(x)).reshape(-1,1)*noise
-y_nonoise   =   function(x)
+X           =   np.sort(np.random.uniform(0,1,N)).reshape(-1,1)
+y           =   function(X).reshape(-1,1) + np.random.randn(len(X)).reshape(-1,1)*noise
+y_nonoise   =   function(X)
 
 degrees     =   np.arange(1, 16)
 
 kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )
 
-X_trainz, X_testz, y_trainz, y_testz = train_test_split(x, y, test_size=1./k)
-array_size_thingy=len(y_testz)
+X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1./k)
+arrsze=len(y_testz)
 
 err     =   []
 bi      =   []
 vari    =   []
 
+folds = traintest(X,k)
+
 for deg in degrees:
-    y_pred  =   np.empty(   (array_size_thingy, k)  )
+    y_pred  =   np.empty(   (arrsze, k)  )
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
-#
-    for train_inds, test_inds in kfold.split(x):
-        xtrain      =   x[train_inds]
+
+#    for train_inds, test_inds in kfold.split(X):
+    for fold in range(len(folds)):
+        first = True
+        for i in range(len(folds)):
+            if i != fold:
+                if first:
+                    traininds = folds[i]
+                    first = False
+                else:
+                    concd = np.concatenate((traininds, folds[i]))
+                    traininds = concd
+        testinds = folds[fold]
+
+        Xtrain      =   X[train_inds]
         ytrain      =   y[train_inds]
 
-        xtest       =   x[test_inds]
+        Xtest       =   X[test_inds]
         ytest       =   y[test_inds]
 
-        y_pred[:,j] =   model.fit(xtrain,ytrain).predict(xtest).ravel()
+##        print('lenghts:\nXtrain: ', len(Xtrain), 
+##                '\nytrain: ', len(ytrain),
+##                '\nXtest: ', len(Xtest) ,
+##                '\ny_pred[:,',j,']: ', len(y_pred[:,j]))
+##        input("press enter to proceed")
+
+        y_pred[:,j] =   model.fit(Xtrain,ytrain).predict(Xtest).ravel()
         j+=1
 
     error   =   np.mean( np.mean((ytest - y_pred)**2, axis=1, keepdims=True) )
