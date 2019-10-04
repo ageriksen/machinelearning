@@ -40,6 +40,9 @@ Q's
     determines the length of y_pred.
 -   To what degree can one use KFold, make_pipeline, PolynomialFeatures and
     LinearRegression from sklearn?
+
+    Ignore the "build own algorithm" thing. understand what it does, and move on. Use the example code 
+    (all of it can be used) and incorporate it to the larger terrain sampling. 
 ////////////// 
 ////////    Part (a)    ////////
     v   Generate own dataset for Franke's function with x, y \in [0, 1]

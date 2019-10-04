@@ -58,24 +58,24 @@ for deg in degrees:
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
-#    for train_inds, test_inds in kfold.split(X):
-    for fold in range(len(folds)):
-        first = True
-        for i in range(len(folds)):
-            if i != fold:
-                if first:
-                    traininds = folds[i]
-                    first = False
-                else:
-                    concd = np.concatenate((traininds, folds[i]))
-                    traininds = concd
-        testinds = folds[fold]
+    for traininds, testinds in kfold.split(X):
+#    for fold in range(len(folds)):
+#        first = True
+#        for i in range(len(folds)):
+#            if i != fold:
+#                if first:
+#                    traininds = folds[i]
+#                    first = False
+#                else:
+#                    concd = np.concatenate((traininds, folds[i]))
+#                    traininds = concd
+#        testinds = folds[fold]
 
-        Xtrain      =   X[train_inds]
-        ytrain      =   y[train_inds]
+        Xtrain      =   X[traininds]
+        ytrain      =   y[traininds]
 
-        Xtest       =   X[test_inds]
-        ytest       =   y[test_inds]
+        Xtest       =   X[testinds]
+        ytest       =   y[testinds]
 
 ##        print('lenghts:\nXtrain: ', len(Xtrain), 
 ##                '\nytrain: ', len(ytrain),
@@ -92,6 +92,14 @@ for deg in degrees:
     err.append(error)
     bi.append(bias)
     vari.append(variance)
+
+
+""" 
+plot selected indexes to ensure unique selection
+
+plot data and fit to try and visualize
+"""
+
 
 max_pd  =   12  #max polynomial degree to plot
 plt.figure()
