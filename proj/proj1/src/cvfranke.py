@@ -52,24 +52,13 @@ bi      =   []
 vari    =   []
 
 folds = traintest(X,k)
-
+print('\nX.shape: ', X.shape)#, '\nX:\n', X)
 for deg in degrees:
     y_pred  =   np.empty(   (arrsze, k)  )
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
     for traininds, testinds in kfold.split(X):
-#    for fold in range(len(folds)):
-#        first = True
-#        for i in range(len(folds)):
-#            if i != fold:
-#                if first:
-#                    traininds = folds[i]
-#                    first = False
-#                else:
-#                    concd = np.concatenate((traininds, folds[i]))
-#                    traininds = concd
-#        testinds = folds[fold]
 
         Xtrain      =   X[traininds]
         ytrain      =   y[traininds]
@@ -77,15 +66,10 @@ for deg in degrees:
         Xtest       =   X[testinds]
         ytest       =   y[testinds]
 
-##        print('lenghts:\nXtrain: ', len(Xtrain), 
-##                '\nytrain: ', len(ytrain),
-##                '\nXtest: ', len(Xtest) ,
-##                '\ny_pred[:,',j,']: ', len(y_pred[:,j]))
-##        input("press enter to proceed")
-
         y_pred[:,j] =   model.fit(Xtrain,ytrain).predict(Xtest).ravel()
         j+=1
-
+    
+    #print('\nytest.size = ',ytest.shape, '\ny_pred.size = ',  y_pred.shape)
     error   =   np.mean( np.mean((ytest - y_pred)**2, axis=1, keepdims=True) )
     bias    =   np.mean( (ytest - np.mean(y_pred, axis=1, keepdims=True))**2 )
     variance=   np.mean(    np.var(y_pred, axis=1, keepdims=True)   )

@@ -1,6 +1,8 @@
-
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+import scipy.linalg as scl
+from matplotlib import cm
 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.model_selection import train_test_split
@@ -37,6 +39,10 @@ def Designmatrix(x, y, n=5):
     
     return X
 
+def ols_svd(X: np.ndarray, z: np.ndarray) -> np.ndarray:
+    u, s, v = scl.svd(X)
+    return v.T @ scl.pinv(scl.diagsvd(s, u.shape[0], v.shape[0])) @ u.T @ z
+
 def confidence(beta, X, confidence=1.96):
     weight = np.sqrt( np.diag( np.linalg.inv( X.T @ X ) ) )*confidence
     betamin = beta - weight
@@ -63,7 +69,7 @@ colsort         =       rand_col[sortcolindex]
 
 colmat, rowmat  =       np.meshgrid(colsort, rowsort)
 
-noiseSTR        =       1
+noiseSTR        =       0.1
 noise           =       np.random.randn(nrow, ncol)
 
 zmat_nonoise    =       Frankefunction(rowmat, colmat)
@@ -73,57 +79,102 @@ zmat            =       zmat_nonoise + noiseSTR*noise
 #   ///////   flatten   ///////   
 rowarr          =       rowmat.ravel()
 colarr          =       colmat.ravel()
-zarr            =       zmat.ravel()
+zarr            =       zmat.ravel().reshape(-1,1)
 #   ///////     /////// 
 
 #   ///////   design matrix   ///////   
 n               =       5
 X               =       Designmatrix(rowarr, colarr, n)
+#print('\nX.shape: ', X.shape, '\nX:\n', X)
+Xarr = X.ravel().reshape(-1,1)
+#print('\nXarr.shape: ', Xarr.shape, '\nX:\n', Xarr)
 #   ///////     /////// 
 
 #   ///////    Linear regression   ///////   
-beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr
-zarr_pred       =       X @ beta
-zmat_pred       =       zarr_pred.reshape(nrow, ncol)
+#beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr
+#zarr_pred       =       X @ beta
+#zmat_pred       =       zarr_pred.reshape(nrow, ncol)
 #   ///////     /////// 
 
 #   ///////   Error   ///////   
-CImin, CImax    =       confidence(beta, X)
-MSE             =       1/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2
-RR              =       Rsquared(zarr, zarr_pred)
+#CImin, CImax    =       confidence(beta, X)
+#MSE             =       1/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2
+#RR              =       Rsquared(zarr, zarr_pred)
 
 #   // kfold //
+#k           =   16
 k           =   5
+#degrees     =   np.arange(1, 27)
 degrees     =   np.arange(1, 16)
 
 kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )
 
 X_trainz, X_testz, zarr_trainz, zarr_testz = train_test_split(X, zarr, test_size=1./k)
-arrsze=len(zarr_testz)
+testarrsze=len(zarr_testz)
+trainarrsze=len(zarr_trainz)
 
-err     =   []
-bi      =   []
-vari    =   []
+testerr     =   []
+testbi      =   []
+testvari    =   []
+
+trainerr     =   []
+trainbi      =   []
+trainvari    =   []
 
 for deg in degrees:
-    z_pred  =   np.empty(   (arrsze, k)  )
+    ztest_pred  =   np.empty(   (testarrsze, k)  )
+    ztrain_pred  =   np.empty(   (trainarrsze, k)  )
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
     for traininds, testinds in kfold.split(X):
 
-        Xtrain      =   X[traininds]
+        Xtrain      =   Xarr[traininds]
         ztrain      =   zarr[traininds]
 
-        Xtest       =   X[testinds]
+        Xtest       =   Xarr[testinds]
         ztest       =   zarr[testinds]
-
-        z_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtest).ravel()
+        
+        ztest_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtest).ravel()
+        ztrain_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtrain).ravel()
         j+=1
 
-    error   =   np.mean( np.mean((ztest - z_pred)**2, axis=1, keepdims=True) )
-    bias    =   np.mean( (ztest - np.mean(z_pred, axis=1, keepdims=True))**2 )
-    variance=   np.mean(    np.var(z_pred, axis=1, keepdims=True)   )
-    err.append(error)
-    bi.append(bias)
-    vari.append(variance)
+    error_test      =   np.mean(    np.mean((ztest - ztest_pred)**2, axis=1, keepdims=True) )
+    bias_test       =   np.mean(    (ztest - np.mean(ztest_pred, axis=1, keepdims=True))**2 )
+    variance_test   =   np.mean(    np.var(ztest_pred, axis=1, keepdims=True)               )
+    testerr.append(error_test)
+    testbi.append(bias_test)
+    testvari.append(variance_test)
+
+    error_train     =   np.mean(    np.mean((ztrain - ztrain_pred)**2, axis=1, keepdims=True) )
+    bias_train      =   np.mean(    (ztrain - np.mean(ztrain_pred, axis=1, keepdims=True))**2 )
+    variance_train  =   np.mean(    np.var(ztrain_pred, axis=1, keepdims=True)               )
+    trainerr.append(error_test)
+    trainbi.append(bias_test)
+    trainvari.append(variance_test)
+
+print('X.shape: ', X.shape, '\nk')
+
+plt.figure()
+plt.plot(degrees, testerr, label='test fold')
+plt.plot(degrees, trainerr, label='train fold')
+plt.xlabel('complexity')
+plt.ylabel('MSE')
+plt.title('OLS resampling k-fold CV')
+plt.legend()
+
+
+fig = plt.figure()
+
+ax      =   fig.add_subplot(1, 2, 1, projection='3d')
+surf    =   ax.plot_surface(
+            rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.title('Measurement')
+
+ax      =   fig.add_subplot(1, 2, 2, projection='3d')
+surf    =   ax.plot_surface(
+            rowmat, colmat, zmat_pred, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.title('OLS fit')
+plt.show()
