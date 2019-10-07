@@ -3,24 +3,81 @@
 
 %packages
 \usepackage{physics}
+\usepackage{amsmath}
 
-%\title{\normalfont\spacedallcaps{Title here}}
+\title{Ordinary least squares regression of Franke's function}
 %\subtitle{subtitle here}
 
-%\author{Barholomew Finch}
-%\date{}
+\author{Anders Eriksen}
+\date{}
 
 %//////////////////////
 \begin{document}
 %=====
 %table of contents, list of figs and content
-%\maketitle
-%\tableofcontents
-%\listoffigures
-%\listoftables
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
 %=====
-\section{Initial section}
+\begin{abstract}
+    The main summary of the work
+\end{abstract}
 
+\section{introduction}
+    aims and rationale of the physics case, what you've done as well as a brief summary of 
+the report \\
+    o   Motivate the reader\\
+    o   What done\\
+    o   Structure of report\\
+\section{Methods}
+    Theoretical models and technicalities. \\
+    o   describe methods and algorithms\\
+    o   explain implementation of methods and say something about the structure of
+        algorithm and present parts of code\\
+    o   Plug in some calculations to test code, such as selected runs used to validate and
+        verify results. Latter extremely important. Reader needs to know that your code
+        reproduces selected benchmarks and reproduces previous results, either numerical 
+        and/or well-known closed-form expressions. \\
+
+The main point of interest here, is the examination of regression models of continuous 
+functions. 
+
+Starting with ordinary least squares (OLS). Firstly, there is fitting polynomials to a specific 
+2-dimensional function called \it{Franke's function}\cite{}. 
+\begin{equation}
+\end{equation}
+\section{Results}
+    The results and discussion of such\\
+    o   Present results \\
+    o   Give critical discussion of you work \& place it in correct context\\
+    o   Relate work to other calculations/studies\\
+    o   Reader should be able to reproduce calculations should they wish to do so. 
+        All input variables should be properly explained. \\
+    o   Make sure figures and tables contain enough information in their captions. 
+        Axis labels, etc. A reader should be able to get a first impression of the work
+        by purely studying the figures and tables. \\
+\section{Conclusion}
+    Conclusions and perspectives\\
+    o   State main findings and interpretations \\
+    o   Try as far as possible to present perspectives for future work. \\
+    o   Try to discuss the pros and cons of the methods and possible improvements. \\
+\section{Appendix}
+    any extra material \\
+    o   Additional calculations used to validate code. \\
+    o   Selected calculations. Can be listed with few comments. \\
+    o   Listing of code if necessary. \\
+    Consider moving parts from methods to appendix. A webpage is also an appropriate place
+    for a lot of this type of info. \\\\
+
+%bibliography
+ %References
+    o   Always reference material you base your work on, either scientific articles/reports
+        or books. \\
+    o   Refer to articles as: name(s) of author(s), journal, volume(Bold), page and year in
+        parenthesis. \\
+    o   Refer to bookds as: name(s) of author(s), title of book, publisher, place and year, 
+        eventual page numbers. \\
 
 \end{document}
 %/////////////////////
