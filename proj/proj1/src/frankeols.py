@@ -109,21 +109,21 @@ degrees     =   np.arange(1, 16)
 
 kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )
 
+#////////////
 X_trainz, X_testz, zarr_trainz, zarr_testz = train_test_split(X, zarr, test_size=1./k)
 testarrsze=len(zarr_testz)
-trainarrsze=len(zarr_trainz)
+Xarr_testz = X_testz.reshape(-1,1)
+zarr_testz_pred  =   np.empty(   (len(Xarr_testz), len(degrees))  )
+#///////////
 
 testerr     =   []
 testbi      =   []
 testvari    =   []
 
-trainerr     =   []
-trainbi      =   []
-trainvari    =   []
+err         =   []
 
 for deg in degrees:
     ztest_pred  =   np.empty(   (testarrsze, k)  )
-    ztrain_pred  =   np.empty(   (trainarrsze, k)  )
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
@@ -136,45 +136,40 @@ for deg in degrees:
         ztest       =   zarr[testinds]
         
         ztest_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtest).ravel()
-        ztrain_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtrain).ravel()
+        #ztrain_pred[:,j] =   model.fit(Xtrain,ztrain).predict(Xtrain).ravel()
         j+=1
-
     error_test      =   np.mean(    np.mean((ztest - ztest_pred)**2, axis=1, keepdims=True) )
     bias_test       =   np.mean(    (ztest - np.mean(ztest_pred, axis=1, keepdims=True))**2 )
     variance_test   =   np.mean(    np.var(ztest_pred, axis=1, keepdims=True)               )
     testerr.append(error_test)
     testbi.append(bias_test)
     testvari.append(variance_test)
+    
+    zarr_testz_pred[:,deg-1] = model.predict(Xarr_testz).ravel()
+    #err.append(np.mean(    np.mean((zarr_testz - zarr_testz_pred)**2, axis=1, keepdims=True) ))
 
-    error_train     =   np.mean(    np.mean((ztrain - ztrain_pred)**2, axis=1, keepdims=True) )
-    bias_train      =   np.mean(    (ztrain - np.mean(ztrain_pred, axis=1, keepdims=True))**2 )
-    variance_train  =   np.mean(    np.var(ztrain_pred, axis=1, keepdims=True)               )
-    trainerr.append(error_test)
-    trainbi.append(bias_test)
-    trainvari.append(variance_test)
 
-print('X.shape: ', X.shape, '\nk')
 
 plt.figure()
-plt.plot(degrees, testerr, label='test fold')
-plt.plot(degrees, trainerr, label='train fold')
+plt.plot(degrees, testerr, label='training set')
+#plt.plot(degrees, err, label='test set')
 plt.xlabel('complexity')
 plt.ylabel('MSE')
 plt.title('OLS resampling k-fold CV')
 plt.legend()
 
 
-fig = plt.figure()
+#fig = plt.figure()
 
-ax      =   fig.add_subplot(1, 2, 1, projection='3d')
-surf    =   ax.plot_surface(
-            rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
-fig.colorbar(surf, shrink=0.5, aspect=5)
-plt.title('Measurement')
+#ax      =   fig.add_subplot(1, 2, 1, projection='3d')
+#surf    =   ax.plot_surface(
+#            rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+#fig.colorbar(surf, shrink=0.5, aspect=5)
+#plt.title('Measurement')
 
-ax      =   fig.add_subplot(1, 2, 2, projection='3d')
-surf    =   ax.plot_surface(
-            rowmat, colmat, zmat_pred, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
-fig.colorbar(surf, shrink=0.5, aspect=5)
-plt.title('OLS fit')
+#ax      =   fig.add_subplot(1, 2, 2, projection='3d')
+#surf    =   ax.plot_surface(
+#            rowmat, colmat, , cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+#fig.colorbar(surf, shrink=0.5, aspect=5)
+#plt.title('OLS fit')
 plt.show()
