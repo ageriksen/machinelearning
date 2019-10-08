@@ -49,9 +49,9 @@ deg = 5
 
 model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
-model.fit(np.column_stack((colarr, rowarr)), zarr)
-zarr_pred =   model.predict(np.column_stack((colarr, rowarr))).ravel()
-zmat_pred   =   zarr_pred.reshape(colmat.shape)
+model.fit(np.column_stack(( rowarr, colarr)), zarr)
+zarr_pred =   model.predict(np.column_stack(( rowarr, colarr))).ravel()
+zmat_pred   =   zarr_pred.reshape(rowmat.shape)
 
 
 #   ///////   Error   ///////   

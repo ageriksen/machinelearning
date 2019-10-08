@@ -17,40 +17,6 @@ def Frankefunction(x, y):
     term3   =   0.5   *np.exp(    -0.25*(9*x - 7)**2  -   0.25*(9*y - 3)**2   )
     term4   =  -0.2   *np.exp(    -(9*x - 4)**2       -   (9*y - 7)**2        )
     return term1 + term2 + term3 + term4
-
-#def Designmatrix(x, y, n=5):
-#    """ 
-#    create a design matrix dependent on the polynomial grade you want, with a base of 3.
-#    want the collumns of X to be [1, x, y, x^2, xy, y^2, x^3, x^2y, xy^2, y^3]
-#    and so on. 
-#    """
-#    if len(x.shape) > 1:
-#        x = np.ravel(x)
-#        y = np.ravel(y)
-#
-#    N = len(x)
-#    l = int( (n+1)*(n+2)/2 )    # nr. of elements in beta
-#    X = np.ones((N,l))
-#
-#    for i in range(1, n+1):
-#        q = int( (i)*(i+1)/2 )
-#        for k in range(i+1):
-#            X[:, q+k] = x**(i-k) * y**k
-#    
-#    return X
-#
-#def ols_svd(X: np.ndarray, z: np.ndarray) -> np.ndarray:
-#    u, s, v = scl.svd(X)
-#    return v.T @ scl.pinv(scl.diagsvd(s, u.shape[0], v.shape[0])) @ u.T @ z
-#
-#def confidence(beta, X, confidence=1.96):
-#    weight = np.sqrt( np.diag( np.linalg.inv( X.T @ X ) ) )*confidence
-#    betamin = beta - weight
-#    betamax = beta + weight
-#    return betamin, betamax
-#
-#def Rsquared(y, y_pred):
-#    return 1 - ( np.sum( (y - y_pred)**2 )/np.sum( (y - np.mean(y))**2 ) )
 #   /////// !Functions   /////// 
 
 #   ///////   make random data   ///////   
@@ -79,37 +45,11 @@ zmat            =       zmat_nonoise + noiseSTR*noise
 #   ///////   flatten   ///////   
 rowarr          =       rowmat.ravel()
 colarr          =       colmat.ravel()
-zarr            =       zmat.ravel().reshape(-1, 1)
+zarr            =       zmat.ravel()#.reshape(-1, 1)
 #   ///////     /////// 
 
-#   ///////   design matrix   ///////   
-#n               =       5
-#X               =       Designmatrix(rowarr, colarr, n)
-#print('\nX.shape: ', X.shape, '\nX:\n', X)
-#Xarr = X.ravel().reshape(-1,1)
-#print('\nXarr.shape: ', Xarr.shape, '\nX:\n', Xarr)
-#   ///////     /////// 
-
-#   ///////    Linear regression   ///////   
-#beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr
-#zarr_pred       =       X @ beta
-#zmat_pred       =       zarr_pred.reshape(nrow, ncol)
-#   ///////     /////// 
-
-#   ///////   Error   ///////   
-#CImin, CImax    =       confidence(beta, X)
-#MSE             =       1/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2
-#RR              =       Rsquared(zarr, zarr_pred)
-#print(  "\nMSE is: ",       MSE, 
-#        '\nR^2 is: ',       RR, 
-#        '\nCI_min:\n',      CImin, 
-#        '\nCI_max:\n',      CImax   )
-#
-#   // kfold //
-#k           =   16
 k           =   5
-#degrees     =   np.arange(1, 27)
-degrees     =   np.arange(1, 16)
+degrees     =   np.arange(1, 10)
 
 kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )
 
@@ -122,12 +62,13 @@ err     =   []
 bi      =   []
 vari    =   []
 
+zshape = zarr.reshape(-1,1)
 for deg in degrees:
     ztest_pred  =   np.empty(   (testarrsze, k)  )
     j   =   0
     model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=False ) )
 
-    for traininds, testinds in kfold.split(colarr):
+    for traininds, testinds in kfold.split(rowarr):
 
         coltrain    =   colarr[traininds]
         rowtrain    =   rowarr[traininds]
@@ -135,12 +76,13 @@ for deg in degrees:
 
         coltest     =   colarr[testinds]
         rowtest     =   rowarr[testinds]
-        ztest       =   zarr[testinds]
+        ztest       =   zshape[testinds]
         
         #print( '\n===================\ncoltrain.shape: ', coltrain.shape, '\nrowtrain.shape: ', rowtrain.shape, '\nztrain.shape: ', ztrain.shape, '\n=====================\n')
         
         model.fit(np.column_stack((coltrain, rowtrain)), ztrain)
-        ztest_pred[:,j] =   model.predict(np.column_stack((coltest, rowtest))).ravel()
+        matpred =   model.predict(np.column_stack((coltest, rowtest)))
+        ztest_pred[:,j] =   matpred.ravel()
         j+=1
 
     error_test      =   np.mean(    np.mean((ztest - ztest_pred)**2, axis=1, keepdims=True) )
@@ -160,16 +102,17 @@ plt.legend()
 
 
 #fig = plt.figure()
-
+#
 #ax      =   fig.add_subplot(1, 2, 1, projection='3d')
 #surf    =   ax.plot_surface(
 #            rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 #fig.colorbar(surf, shrink=0.5, aspect=5)
 #plt.title('Measurement')
-
+#
+#matpred.reshape(rowmat.shape)
 #ax      =   fig.add_subplot(1, 2, 2, projection='3d')
 #surf    =   ax.plot_surface(
-#            rowmat, colmat, , cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+#            rowmat, colmat, matpred, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 #fig.colorbar(surf, shrink=0.5, aspect=5)
 #plt.title('OLS fit')
 plt.show()
