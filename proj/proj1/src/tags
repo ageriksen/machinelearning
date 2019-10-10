@@ -5,124 +5,82 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
-CImax	frankeols.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
-CImax	olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
-CImin	frankeols.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
-CImin	olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
-Designmatrix	olsfranke.py	/^def Designmatrix(x, y, n=5):$/;"	f
+CImax	older/olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
+CImin	older/olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
+Designmatrix	frankeols.py	/^def Designmatrix(x, y, n=5):$/;"	f
+Designmatrix	older/olsfranke.py	/^def Designmatrix(x, y, n=5):$/;"	f
 Frankefunction	frankeols.py	/^def Frankefunction(x, y):$/;"	f
-Frankefunction	olsfranke.py	/^def Frankefunction(x, y):$/;"	f
-MSE	frankeols.py	/^MSE             =       1\/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2$/;"	v
-MSE	olsfranke.py	/^MSE             =       1\/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2$/;"	v
-N	cvfranke.py	/^N           =   1000#=   int(1e3)$/;"	v
-RR	frankeols.py	/^RR              =       Rsquared(zarr, zarr_pred)$/;"	v
-RR	olsfranke.py	/^RR              =       Rsquared(zarr, zarr_pred)$/;"	v
-Rsquared	frankeols.py	/^def Rsquared(y, y_pred):$/;"	f
-Rsquared	olsfranke.py	/^def Rsquared(y, y_pred):$/;"	f
-X	cvfranke.py	/^X           =   np.sort(np.random.uniform(0,1,N)).reshape(-1,1)$/;"	v
-X	frankeols.py	/^X               =       Designmatrix(rowarr, colarr, n)$/;"	v
-X	olsfranke.py	/^X               =       Designmatrix(rowarr, colarr, n)$/;"	v
-X_testz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-X_testz	frankeols.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-X_trainz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-X_trainz	frankeols.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-Xtest	cvfranke.py	/^        Xtest       =   X[testinds]$/;"	v
-Xtest	frankeols.py	/^        Xtest       =   X[testinds]$/;"	v
-Xtrain	cvfranke.py	/^        Xtrain      =   X[traininds]$/;"	v
-Xtrain	frankeols.py	/^        Xtrain      =   X[traininds]$/;"	v
-arrsze	cvfranke.py	/^arrsze=len(y_testz)$/;"	v
-arrsze	frankeols.py	/^arrsze=len(y_testz)$/;"	v
-ax	olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 1, projection='3d')$/;"	v
-ax	olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 2, projection='3d')$/;"	v
-beta	frankeols.py	/^beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr$/;"	v
-beta	olsfranke.py	/^beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr$/;"	v
-bi	cvfranke.py	/^bi      =   []$/;"	v
+Frankefunction	older/olsfranke.py	/^def Frankefunction(x, y):$/;"	f
+MSE	older/olsfranke.py	/^MSE             =       1\/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2$/;"	v
+RR	older/olsfranke.py	/^RR              =       Rsquared(zarr, zarr_pred)$/;"	v
+Rsquared	older/olsfranke.py	/^def Rsquared(y, y_pred):$/;"	f
+X	frankeols.py	/^    X = Designmatrix(rowarr, colarr, deg) $/;"	v
+X	older/olsfranke.py	/^X               =       Designmatrix(rowarr, colarr, n)$/;"	v
+Xtest	frankeols.py	/^        Xtest   =   X[testinds]$/;"	v
+Xtrain	frankeols.py	/^        Xtrain  =   X[traininds]$/;"	v
+ax	older/olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 1, projection='3d')$/;"	v
+ax	older/olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 2, projection='3d')$/;"	v
+beta	frankeols.py	/^        beta = np.linalg.inv(Xtrain.T @ Xtrain) @ Xtrain.T @ ztrain$/;"	v
+beta	older/olsfranke.py	/^beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr$/;"	v
 bi	frankeols.py	/^bi      =   []$/;"	v
-bias	cvfranke.py	/^    bias    =   np.mean( (ytest - np.mean(y_pred, axis=1, keepdims=True))**2 )$/;"	v
-bias	frankeols.py	/^    bias    =   np.mean( (ytest - np.mean(y_pred, axis=1, keepdims=True))**2 )$/;"	v
+bias_test	frankeols.py	/^    bias_test       =   np.mean(    (ztests - np.mean(ztest_pred, axis=1, keepdims=True))**2 )$/;"	v
 colarr	frankeols.py	/^colarr          =       colmat.ravel()$/;"	v
-colarr	olsfranke.py	/^colarr          =       colmat.ravel()$/;"	v
+colarr	older/olsfranke.py	/^colarr          =       colmat.ravel()$/;"	v
 colmat	frankeols.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
-colmat	olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+colmat	older/olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 colsort	frankeols.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
-colsort	olsfranke.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
-confidence	frankeols.py	/^def confidence(beta, X, confidence=1.96):$/;"	f
-confidence	olsfranke.py	/^def confidence(beta, X, confidence=1.96):$/;"	f
-degrees	cvfranke.py	/^degrees     =   np.arange(1, 16)$/;"	v
-degrees	frankeols.py	/^degrees     =   np.arange(1, 16)$/;"	v
-err	cvfranke.py	/^err     =   []$/;"	v
+colsort	older/olsfranke.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
+confidence	older/olsfranke.py	/^def confidence(beta, X, confidence=1.96):$/;"	f
+degrees	frankeols.py	/^degrees     =   np.arange(1, 10)$/;"	v
 err	frankeols.py	/^err     =   []$/;"	v
-error	cvfranke.py	/^    error   =   np.mean( np.mean((ytest - y_pred)**2, axis=1, keepdims=True) )$/;"	v
-error	frankeols.py	/^    error   =   np.mean( np.mean((ytest - y_pred)**2, axis=1, keepdims=True) )$/;"	v
-fig	olsfranke.py	/^fig = plt.figure()$/;"	v
-folds	cvfranke.py	/^folds = traintest(X,k)$/;"	v
-folds	frankeols.py	/^folds = traintest(X,k)$/;"	v
-function	cvfranke.py	/^def function(X):$/;"	f
-j	cvfranke.py	/^    j   =   0$/;"	v
+error_test	frankeols.py	/^    error_test      =   np.mean(    np.mean((ztests - ztest_pred)**2, axis=1, keepdims=True) )$/;"	v
+fig	older/olsfranke.py	/^fig = plt.figure()$/;"	v
 j	frankeols.py	/^    j   =   0$/;"	v
-k	cvfranke.py	/^k           =   5$/;"	v
 k	frankeols.py	/^k           =   5$/;"	v
-kfold	cvfranke.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
 kfold	frankeols.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
-max_pd	cvfranke.py	/^max_pd  =   12  #max polynomial degree to plot$/;"	v
-model	cvfranke.py	/^    model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=F/;"	v
-model	frankeols.py	/^    model   =   make_pipeline( PolynomialFeatures(degree=deg), LinearRegression( fit_intercept=F/;"	v
-n	frankeols.py	/^n               =       5$/;"	v
-n	olsfranke.py	/^n               =       5$/;"	v
+n	older/olsfranke.py	/^n               =       5$/;"	v
 ncol	frankeols.py	/^ncol = 200$/;"	v
-ncol	olsfranke.py	/^ncol = 200$/;"	v
-noise	cvfranke.py	/^noise       =   0.1$/;"	v
+ncol	older/olsfranke.py	/^ncol = 200$/;"	v
 noise	frankeols.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
-noise	olsfranke.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
-noiseSTR	frankeols.py	/^noiseSTR        =       1$/;"	v
-noiseSTR	olsfranke.py	/^noiseSTR        =       1$/;"	v
-np	cvfranke.py	/^import numpy as np$/;"	I
+noise	older/olsfranke.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
+noiseSTR	frankeols.py	/^noiseSTR        =       0.1$/;"	v
+noiseSTR	older/olsfranke.py	/^noiseSTR        =       1$/;"	v
 np	frankeols.py	/^import numpy as np$/;"	I
-np	olsfranke.py	/^import numpy as np$/;"	I
+np	older/olsfranke.py	/^import numpy as np$/;"	I
 nrow	frankeols.py	/^nrow = 100$/;"	v
-nrow	olsfranke.py	/^nrow = 100$/;"	v
-plt	cvfranke.py	/^import matplotlib.pyplot as plt$/;"	I
+nrow	older/olsfranke.py	/^nrow = 100$/;"	v
 plt	frankeols.py	/^import matplotlib.pyplot as plt$/;"	I
-plt	olsfranke.py	/^import matplotlib.pyplot as plt$/;"	I
+plt	older/olsfranke.py	/^import matplotlib.pyplot as plt$/;"	I
 rand_col	frankeols.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
-rand_col	olsfranke.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
+rand_col	older/olsfranke.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
 rand_row	frankeols.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
-rand_row	olsfranke.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
+rand_row	older/olsfranke.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
 rowarr	frankeols.py	/^rowarr          =       rowmat.ravel()$/;"	v
-rowarr	olsfranke.py	/^rowarr          =       rowmat.ravel()$/;"	v
+rowarr	older/olsfranke.py	/^rowarr          =       rowmat.ravel()$/;"	v
 rowmat	frankeols.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
-rowmat	olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+rowmat	older/olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 rowsort	frankeols.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
-rowsort	olsfranke.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
+rowsort	older/olsfranke.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
+scl	frankeols.py	/^import scipy.linalg as scl$/;"	I
 sortcolindex	frankeols.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
-sortcolindex	olsfranke.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
+sortcolindex	older/olsfranke.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
 sortrowindex	frankeols.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
-sortrowindex	olsfranke.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
-summ	cvfranke.py	/^summ=np.zeros(len(vari))$/;"	v
-surf	olsfranke.py	/^surf    =   ax.plot_surface($/;"	v
-traintest	cvfranke.py	/^def traintest(X, k=2, shuffle=True):$/;"	f
-vari	cvfranke.py	/^vari    =   []$/;"	v
+sortrowindex	older/olsfranke.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
+surf	older/olsfranke.py	/^surf    =   ax.plot_surface($/;"	v
+testarrsze	frankeols.py	/^testarrsze=len(zarr_testz)$/;"	v
 vari	frankeols.py	/^vari    =   []$/;"	v
-variance	cvfranke.py	/^    variance=   np.mean(    np.var(y_pred, axis=1, keepdims=True)   )$/;"	v
-variance	frankeols.py	/^    variance=   np.mean(    np.var(y_pred, axis=1, keepdims=True)   )$/;"	v
-y	cvfranke.py	/^y           =   function(X).reshape(-1,1) + np.random.randn(len(X)).reshape(-1,1)*noise$/;"	v
-y_nonoise	cvfranke.py	/^y_nonoise   =   function(X)$/;"	v
-y_pred	cvfranke.py	/^    y_pred  =   np.empty(   (arrsze, k)  )$/;"	v
-y_pred	frankeols.py	/^    y_pred  =   np.empty(   (arrsze, k)  )$/;"	v
-y_testz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-y_testz	frankeols.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-y_trainz	cvfranke.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-y_trainz	frankeols.py	/^X_trainz, X_testz, y_trainz, y_testz = train_test_split(X, y, test_size=1.\/k)$/;"	v
-ytest	cvfranke.py	/^        ytest       =   y[testinds]$/;"	v
-ytest	frankeols.py	/^        ytest       =   y[testinds]$/;"	v
-ytrain	cvfranke.py	/^        ytrain      =   y[traininds]$/;"	v
-ytrain	frankeols.py	/^        ytrain      =   y[traininds]$/;"	v
-zarr	frankeols.py	/^zarr            =       zmat.ravel()$/;"	v
-zarr	olsfranke.py	/^zarr            =       zmat.ravel()$/;"	v
-zarr_pred	frankeols.py	/^zarr_pred       =       X @ beta$/;"	v
-zarr_pred	olsfranke.py	/^zarr_pred       =       X @ beta$/;"	v
+variance_test	frankeols.py	/^    variance_test   =   np.mean(    np.var(ztest_pred, axis=1, keepdims=True)               )$/;"	v
+zarr	frankeols.py	/^zarr            =       zmat.ravel()#.reshape(-1, 1)$/;"	v
+zarr	older/olsfranke.py	/^zarr            =       zmat.ravel()$/;"	v
+zarr_pred	older/olsfranke.py	/^zarr_pred       =       X @ beta$/;"	v
+zarr_testz	frankeols.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
+zarr_trainz	frankeols.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
 zmat	frankeols.py	/^zmat            =       zmat_nonoise + noiseSTR*noise$/;"	v
-zmat	olsfranke.py	/^zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise$/;"	v
+zmat	older/olsfranke.py	/^zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise$/;"	v
 zmat_nonoise	frankeols.py	/^zmat_nonoise    =       Frankefunction(rowmat, colmat)$/;"	v
-zmat_pred	frankeols.py	/^zmat_pred       =       zarr_pred.reshape(nrow, ncol)$/;"	v
-zmat_pred	olsfranke.py	/^zmat_pred       =       zarr_pred.reshape(nrow, ncol)$/;"	v
+zmat_pred	older/olsfranke.py	/^zmat_pred       =       zarr_pred.reshape(nrow, ncol)$/;"	v
+zshape	frankeols.py	/^zshape = zarr.reshape(-1,1)$/;"	v
+ztest	frankeols.py	/^        ztest       =   zarr[testinds]$/;"	v
+ztest_pred	frankeols.py	/^    ztest_pred  =   np.empty(   (testarrsze, k)  )$/;"	v
+ztests	frankeols.py	/^    ztests  =   np.empty(   (testarrsze, k)  )$/;"	v
+ztrain	frankeols.py	/^        ztrain      =   zarr[traininds]$/;"	v

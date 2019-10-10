@@ -35,6 +35,28 @@ def Designmatrix(x, y, n=5):
             X[:, q+k] = x**(i-k) * y**k
     
     return X
+def SVDinv(A):
+    ''' Takes as input a numpy matrix A and returns inv(A) based on singular value decomposition (SVD).
+    SVD is numerically more stable than the inversion algorithms provided by
+    numpy and scipy.linalg at the cost of being slower.
+    
+    taken from Regressinon slides at https://compphysics.github.io/MachineLearning/doc/pub/Regression/html/Regression.html
+    '''
+    U, s, VT = np.linalg.svd(A)
+#    print('test U')
+#    print( (np.transpose(U) @ U - U @np.transpose(U)))
+#    print('test VT')
+#    print( (np.transpose(VT) @ VT - VT @np.transpose(VT)))
+    print(U)
+    print(s)
+    print(VT)
+
+    D = np.zeros((len(U),len(VT)))
+    for i in range(0,len(VT)):
+        D[i,i]=s[i]
+    UT = np.transpose(U); V = np.transpose(VT); invD = np.linalg.inv(D)
+    #return np.matmul(V,np.matmul(invD,UT))
+    return V @ ( invD @ UT )
 #   /////// !Functions   /////// 
 
 #   ///////   make random data   ///////   
@@ -63,7 +85,7 @@ zmat            =       zmat_nonoise + noiseSTR*noise
 #   ///////   flatten   ///////   
 rowarr          =       rowmat.ravel()
 colarr          =       colmat.ravel()
-zarr            =       zmat.ravel()#.reshape(-1, 1)
+zarr            =       zmat.ravel()
 #   ///////     /////// 
 
 k           =   5
@@ -79,6 +101,7 @@ testarrsze=len(zarr_testz)
 err     =   []
 bi      =   []
 vari    =   []
+_lambda =   0.1
 
 for deg in degrees:
     ztest_pred  =   np.empty(   (testarrsze, k)  )
@@ -88,15 +111,16 @@ for deg in degrees:
     X = Designmatrix(rowarr, colarr, deg) 
     for traininds, testinds in kfold.split(X):
 
-        ztrain      =   zarr[traininds]
-        ztest       =   zarr[testinds]
+        ztrain          =   zarr[traininds]
+        ztest           =   zarr[testinds]
 
-        Xtrain  =   X[traininds]
-        Xtest   =   X[testinds]
-        
-        beta = np.linalg.inv(Xtrain.T @ Xtrain) @ Xtrain.T @ ztrain
+        Xtrain          =   X[traininds]
+        Xtest           =   X[testinds]
+        XTX             =   Xtrain.T @ Xtrain
+        beta            =   np.linalg.inv(XTX + _lambda*np.identity(len(XTX))) @ Xtrain.T @ ztrain
         ztest_pred[:,j] =   Xtest @ beta
-        ztests[:,j] =   ztest
+        ztests[:,j]     =   ztest
+
         j+=1
 
     error_test      =   np.mean(    np.mean((ztests - ztest_pred)**2, axis=1, keepdims=True) )
@@ -105,15 +129,17 @@ for deg in degrees:
     err.append(error_test)
     bi.append(bias_test)
     vari.append(variance_test)
-    
 
-plt.figure()
-plt.plot(degrees, err, label='Error')
-plt.plot(degrees, bi, label='bias')
-plt.plot(degrees, vari, label='variance')
-#plt.plot(degrees, bi+vari, 'o', label='bias + variance')
-plt.xlabel('complexity')
-plt.ylabel('MSE')
-plt.title('OLS resampling k-fold CV')
-plt.legend()
-plt.show()
+
+
+
+#plt.figure()
+#plt.plot(degrees, err, label='Error')
+#plt.plot(degrees, bi, label='bias')
+#plt.plot(degrees, vari, label='variance')
+##plt.plot(degrees, bi+vari, 'o', label='bias + variance')
+#plt.xlabel('complexity')
+#plt.ylabel('MSE')
+#plt.title('OLS resampling k-fold CV')
+#plt.legend()
+#plt.show()
