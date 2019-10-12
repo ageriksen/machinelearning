@@ -63,10 +63,11 @@ colsort         =       rand_col[sortcolindex]
 
 colmat, rowmat  =       np.meshgrid(colsort, rowsort)
 
-noiseSTR        =       1
+noiseSTR        =       0.1
 noise           =       np.random.randn(nrow, ncol)
 
-zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise
+zmat_true       =       Frankefunction(rowmat, colmat)
+zmat            =       zmat_true + noiseSTR*noise
 #   ///////     /////// 
 
 #   ///////   flatten   ///////   
@@ -101,15 +102,15 @@ fig = plt.figure()
 
 ax      =   fig.add_subplot(1, 2, 1, projection='3d')
 surf    =   ax.plot_surface(
-            rowmat, colmat, zmat, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
+            rowmat, colmat, zmat_true, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 fig.colorbar(surf, shrink=0.5, aspect=5)
-plt.title('Measurement')
+plt.title('Franke without noise')
 
 ax      =   fig.add_subplot(1, 2, 2, projection='3d')
 surf    =   ax.plot_surface(
             rowmat, colmat, zmat_pred, cmap=cm.coolwarm, linewidth=0, antialiased=False   )
 fig.colorbar(surf, shrink=0.5, aspect=5)
-plt.title('OLS fit')
+plt.title('OLS fit after adding noise')
 
 plt.figure()
 plt.plot(beta, label=r'$\beta$')

@@ -4,6 +4,7 @@
 %packages
 \usepackage{physics}
 \usepackage{amsmath}
+\usepackage{algorithm}
 
 \title{Ordinary least squares regression of Franke's function}
 %\subtitle{subtitle here}
@@ -40,13 +41,34 @@ the report \\
         reproduces selected benchmarks and reproduces previous results, either numerical 
         and/or well-known closed-form expressions. \\
 
-The main point of interest here, is the examination of regression models of continuous 
-functions. 
+The aim is to study regression models on data. These create a continuous function with which
+the input data is fitted. The first, and most basic is the \textit{Ordinary Least Squares method} 
+(\textit{OLS})
 
-Starting with ordinary least squares (OLS). Firstly, there is fitting polynomials to a specific 
-2-dimensional function called \it{Franke's function}\cite{}. 
-\begin{equation}
-\end{equation}
+To test and validate the algorithms, a closed form function is an advantage. We wish to predict
+terrain. there is a 2-dimensional function called \textit{Franke's function}\cite{} which can 
+transform a set of coordinate vectors with values between $[0, 1]$ into height values through 
+a sum of weighted exponents. 
+\begin{align}
+    f(x, y) \;=\; 
+        &\frac{3}{4} \exp{ - \frac{(9x \,-\, 2)^2}{4}    \,-\, \frac{(9y \,-\, 2)^2}{4} }\\
+    +   &\frac{3}{4} \exp{ - \frac{(9x \,+\, 1)^2}{49}   \,-\, \frac{(9y \,+\, 1)  }{10} }\\
+    +   &\frac{1}{2} \exp{ - \frac{(9x \,-\, 7)^2}{4}    \,-\, \frac{(9y \,-\, 3)^2}{4} }\\
+    -   &\frac{1}{5} \exp{ -       (9x \,-\, 4)^2        \,-\,       (9y \,-\, 7)^2     }
+\end{align}
+
+To generate the data, one can create a uniformly distributed set of initial values ordered 
+from low to high. These initial arrays are then combined into coordinate data through the 
+numpy meshgrid function before being passed to Franke's function. These are matrices, and 
+they are therefore flattened to 1D arrays through numpy's \textit{ravel()} function.
+
+Next comes setting up the model. Firstly, constructing the model design matrix. We want a
+design matrix for variable levels of model complexity, so we construct it from a polynomial
+combination of the input parameters x and y. 
+\begin{algorithm}
+
+\end{algorithm}
+
 \section{Results}
     The results and discussion of such\\
     o   Present results \\
