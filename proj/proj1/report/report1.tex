@@ -5,6 +5,7 @@
 \usepackage{physics}
 \usepackage{amsmath}
 \usepackage{algorithm}
+\usepackage{algorithmic}
 
 \title{Ordinary least squares regression of Franke's function}
 %\subtitle{subtitle here}
@@ -51,9 +52,12 @@ transform a set of coordinate vectors with values between $[0, 1]$ into height v
 a sum of weighted exponents. 
 \begin{align}
     f(x, y) \;=\; 
-        &\frac{3}{4} \exp{ - \frac{(9x \,-\, 2)^2}{4}    \,-\, \frac{(9y \,-\, 2)^2}{4} }\\
-    +   &\frac{3}{4} \exp{ - \frac{(9x \,+\, 1)^2}{49}   \,-\, \frac{(9y \,+\, 1)  }{10} }\\
-    +   &\frac{1}{2} \exp{ - \frac{(9x \,-\, 7)^2}{4}    \,-\, \frac{(9y \,-\, 3)^2}{4} }\\
+        &\frac{3}{4} \exp{ - \frac{(9x \,-\, 2)^2}{4}    \,-\, \frac{(9y \,-\, 2)^2}{4} }
+    \nonumber \\
+    +   &\frac{3}{4} \exp{ - \frac{(9x \,+\, 1)^2}{49}   \,-\, \frac{(9y \,+\, 1)  }{10} }
+    \nonumber \\
+    +   &\frac{1}{2} \exp{ - \frac{(9x \,-\, 7)^2}{4}    \,-\, \frac{(9y \,-\, 3)^2}{4} }
+    \nonumber \\
     -   &\frac{1}{5} \exp{ -       (9x \,-\, 4)^2        \,-\,       (9y \,-\, 7)^2     }
 \end{align}
 
@@ -66,8 +70,57 @@ Next comes setting up the model. Firstly, constructing the model design matrix. 
 design matrix for variable levels of model complexity, so we construct it from a polynomial
 combination of the input parameters x and y. 
 \begin{algorithm}
-
+\caption{make design matrix X given input $\vec{x}, \vec{y}$ and dimension n}
+\begin{algorithmic}
+\STATE  create X as a matrix of ones with dimension $length(x)$ and $(int) i(i+1)/2$
+\FOR{$i = 1\; \TO \; n+1$}
+\STATE $q = (int) i(i+1)/2$
+\FOR{$k = 0 \;\TO\; i+1 $}
+\STATE $X[:\,,\,q+k] = x^{i - k} \cdot y^k $
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
 \end{algorithm}
+
+Next is to fit the model. The linear model, taken from Hastie et al\cite{}, predicts the 
+value $Y$ as 
+\begin{align}
+    Y \,=\, X^T \, \beta.
+\end{align}
+$Y$ is given through the inner product of the transpose of $X$ and $\beta$.
+$X$ being the design matrix mentioned above. 
+
+One method to approximate this, is with the \textit{Residual Sum of Squares}
+\begin{align}
+    RSS(\beta) \,=\, \sum_{i=1}^N (y_i - x_i^T\beta)^2.\cite{}
+\end{align}
+As the sum of squares, there is a guaranteed minimum, though not necessarily a unique one. 
+If we write this in vector notation, differentiate w.r.t $\beta$ we get the so-called 
+\textit{normal equations}. 
+\begin{align}
+    &RSS(\beta) \,=\, ( \vec{y} \,-\, \mathbf{X}\beta )^T \, ( \vec{y} - \mathbf{X}\beta )
+    \nonumber \\
+    &\text{differentiating w.r.t $\beta$ gives:} \nonumber \\
+    &    \mathbf{X}^T(\vec{y} \,-\, \mathbf{X}\beta) = 0 \nonumber \\
+    &\text{given non-singular $\mathbf{X}^T\mathbf{X}$:} \nonumber \\
+    & \hat{\beta} = \qty(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\,\vec{y}.
+\end{align}
+
+A prediction can then be made of the values $Y$ given our $\beta$ and $\mathbf{X}$ with
+\begin{align}
+    \hat{Y} \,&=\, \mathbf{X}\,\hat{\beta}.
+\end{align}
+
+In a naive way, this prediction can be compared to the reference output values, to see how
+well the model predicts the data. Our wish, however, is to predict data of the same stochastic
+"source" as our known data. As such, we could get arbitrarily like the known data by 
+increasing the complexity of the polynomial we use to fit the input. This will, however cost us
+generality. Any data outside the data we use to specifically fit the model is unlikely to fall 
+within the model's prediction. This bias is something we need to avoid.
+
+To this effect, we can implement a sectioning of the available data so that we can use parts of
+the set to "train" our model and a separate part as a "test" or "validation".
+The meethod chosen is called \textit{k-fold Cross Validation} (k-fold CV)
 
 \section{Results}
     The results and discussion of such\\
