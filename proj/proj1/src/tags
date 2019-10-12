@@ -7,80 +7,174 @@
 !_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
 CImax	older/olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
 CImin	older/olsfranke.py	/^CImin, CImax    =       confidence(beta, X)$/;"	v
+Designmatrix	frankelasso.py	/^def Designmatrix(x, y, n=5):$/;"	f
 Designmatrix	frankeols.py	/^def Designmatrix(x, y, n=5):$/;"	f
+Designmatrix	frankeridge.py	/^def Designmatrix(x, y, n=5):$/;"	f
 Designmatrix	older/olsfranke.py	/^def Designmatrix(x, y, n=5):$/;"	f
+Frankefunction	frankelasso.py	/^def Frankefunction(x, y):$/;"	f
 Frankefunction	frankeols.py	/^def Frankefunction(x, y):$/;"	f
+Frankefunction	frankeridge.py	/^def Frankefunction(x, y):$/;"	f
 Frankefunction	older/olsfranke.py	/^def Frankefunction(x, y):$/;"	f
 MSE	older/olsfranke.py	/^MSE             =       1\/len(zarr_pred) * np.linalg.norm( zarr - zarr_pred )**2$/;"	v
 RR	older/olsfranke.py	/^RR              =       Rsquared(zarr, zarr_pred)$/;"	v
 Rsquared	older/olsfranke.py	/^def Rsquared(y, y_pred):$/;"	f
+SVDinv	frankelasso.py	/^def SVDinv(A):$/;"	f
+SVDinv	frankeridge.py	/^def SVDinv(A):$/;"	f
+X	frankelasso.py	/^        X = Designmatrix(rowarr, colarr, deg) $/;"	v
 X	frankeols.py	/^    X = Designmatrix(rowarr, colarr, deg) $/;"	v
+X	frankeridge.py	/^        X = Designmatrix(rowarr, colarr, deg) $/;"	v
 X	older/olsfranke.py	/^X               =       Designmatrix(rowarr, colarr, n)$/;"	v
+XTX	frankelasso.py	/^            XTX             =   Xtrain.T @ Xtrain$/;"	v
+XTX	frankeridge.py	/^            XTX             =   Xtrain.T @ Xtrain$/;"	v
+Xtest	frankelasso.py	/^            Xtest           =   X[testinds]$/;"	v
 Xtest	frankeols.py	/^        Xtest   =   X[testinds]$/;"	v
+Xtest	frankeridge.py	/^            Xtest           =   X[testinds]$/;"	v
+Xtrain	frankelasso.py	/^            Xtrain          =   X[traininds]$/;"	v
 Xtrain	frankeols.py	/^        Xtrain  =   X[traininds]$/;"	v
+Xtrain	frankeridge.py	/^            Xtrain          =   X[traininds]$/;"	v
+_lambda	frankelasso.py	/^_lambda     =   np.logspace(-1.7, -1)$/;"	v
+_lambda	frankeridge.py	/^_lambda     =   np.logspace(-2, -1)$/;"	v
+arrsze	frankelasso.py	/^arrsze=len(zarr_testz)$/;"	v
+arrsze	frankeridge.py	/^arrsze=len(zarr_testz)$/;"	v
+ax	frankelasso.py	/^ax = sns.heatmap(bias)$/;"	v
+ax	frankelasso.py	/^ax = sns.heatmap(error)$/;"	v
+ax	frankelasso.py	/^ax = sns.heatmap(var)$/;"	v
+ax	frankeridge.py	/^ax = sns.heatmap(bias)$/;"	v
+ax	frankeridge.py	/^ax = sns.heatmap(error)$/;"	v
+ax	frankeridge.py	/^ax = sns.heatmap(var)$/;"	v
 ax	older/olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 1, projection='3d')$/;"	v
 ax	older/olsfranke.py	/^ax      =   fig.add_subplot(1, 2, 2, projection='3d')$/;"	v
 beta	frankeols.py	/^        beta = np.linalg.inv(Xtrain.T @ Xtrain) @ Xtrain.T @ ztrain$/;"	v
+beta	frankeridge.py	/^            beta            =   SVDinv(XTX + _lambda[lmbd]*np.identity(len(XTX))) @ Xtrain.T @ z/;"	v
 beta	older/olsfranke.py	/^beta            =       np.linalg.inv( X.T @ X ) @ X.T @ zarr$/;"	v
 bi	frankeols.py	/^bi      =   []$/;"	v
+bias	frankelasso.py	/^bias        =   np.zeros((len(_lambda), len(degrees)))$/;"	v
+bias	frankeridge.py	/^bias        =   np.zeros((len(_lambda), len(degrees)))$/;"	v
 bias_test	frankeols.py	/^    bias_test       =   np.mean(    (ztests - np.mean(ztest_pred, axis=1, keepdims=True))**2 )$/;"	v
+colarr	frankelasso.py	/^colarr          =       colmat.ravel()$/;"	v
 colarr	frankeols.py	/^colarr          =       colmat.ravel()$/;"	v
+colarr	frankeridge.py	/^colarr          =       colmat.ravel()$/;"	v
 colarr	older/olsfranke.py	/^colarr          =       colmat.ravel()$/;"	v
+colmat	frankelasso.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 colmat	frankeols.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+colmat	frankeridge.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 colmat	older/olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+colsort	frankelasso.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
 colsort	frankeols.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
+colsort	frankeridge.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
 colsort	older/olsfranke.py	/^colsort         =       rand_col[sortcolindex]$/;"	v
 confidence	older/olsfranke.py	/^def confidence(beta, X, confidence=1.96):$/;"	f
+degrees	frankelasso.py	/^degrees     =   np.arange(1, 16)$/;"	v
 degrees	frankeols.py	/^degrees     =   np.arange(1, 10)$/;"	v
+degrees	frankeridge.py	/^degrees     =   np.arange(1, 16)$/;"	v
 err	frankeols.py	/^err     =   []$/;"	v
+error	frankelasso.py	/^error       =   np.zeros((len(_lambda), len(degrees)))$/;"	v
+error	frankeridge.py	/^error       =   np.zeros((len(_lambda), len(degrees)))$/;"	v
 error_test	frankeols.py	/^    error_test      =   np.mean(    np.mean((ztests - ztest_pred)**2, axis=1, keepdims=True) )$/;"	v
 fig	older/olsfranke.py	/^fig = plt.figure()$/;"	v
+j	frankelasso.py	/^        j = 0$/;"	v
 j	frankeols.py	/^    j   =   0$/;"	v
+j	frankeridge.py	/^        j = 0$/;"	v
+k	frankelasso.py	/^k           =   5$/;"	v
 k	frankeols.py	/^k           =   5$/;"	v
+k	frankeridge.py	/^k           =   5$/;"	v
+kfold	frankelasso.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
 kfold	frankeols.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
+kfold	frankeridge.py	/^kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )$/;"	v
+model	frankelasso.py	/^            model = skl.Lasso(alpha=_lambda[lmbd])$/;"	v
 n	older/olsfranke.py	/^n               =       5$/;"	v
+ncol	frankelasso.py	/^ncol = 200$/;"	v
 ncol	frankeols.py	/^ncol = 200$/;"	v
+ncol	frankeridge.py	/^ncol = 200$/;"	v
 ncol	older/olsfranke.py	/^ncol = 200$/;"	v
+noise	frankelasso.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
 noise	frankeols.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
+noise	frankeridge.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
 noise	older/olsfranke.py	/^noise           =       np.random.randn(nrow, ncol)$/;"	v
+noiseSTR	frankelasso.py	/^noiseSTR        =       0.1$/;"	v
 noiseSTR	frankeols.py	/^noiseSTR        =       0.1$/;"	v
+noiseSTR	frankeridge.py	/^noiseSTR        =       0.1$/;"	v
 noiseSTR	older/olsfranke.py	/^noiseSTR        =       1$/;"	v
+np	frankelasso.py	/^import numpy as np$/;"	I
 np	frankeols.py	/^import numpy as np$/;"	I
+np	frankeridge.py	/^import numpy as np$/;"	I
 np	older/olsfranke.py	/^import numpy as np$/;"	I
+nrow	frankelasso.py	/^nrow = 100$/;"	v
 nrow	frankeols.py	/^nrow = 100$/;"	v
+nrow	frankeridge.py	/^nrow = 100$/;"	v
 nrow	older/olsfranke.py	/^nrow = 100$/;"	v
+plt	frankelasso.py	/^import matplotlib.pyplot as plt$/;"	I
 plt	frankeols.py	/^import matplotlib.pyplot as plt$/;"	I
+plt	frankeridge.py	/^import matplotlib.pyplot as plt$/;"	I
 plt	older/olsfranke.py	/^import matplotlib.pyplot as plt$/;"	I
+rand_col	frankelasso.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
 rand_col	frankeols.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
+rand_col	frankeridge.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
 rand_col	older/olsfranke.py	/^rand_col        =       np.random.uniform(0, 1, size=ncol)$/;"	v
+rand_row	frankelasso.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
 rand_row	frankeols.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
+rand_row	frankeridge.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
 rand_row	older/olsfranke.py	/^rand_row        =       np.random.uniform(0, 1, size=nrow)$/;"	v
+rowarr	frankelasso.py	/^rowarr          =       rowmat.ravel()$/;"	v
 rowarr	frankeols.py	/^rowarr          =       rowmat.ravel()$/;"	v
+rowarr	frankeridge.py	/^rowarr          =       rowmat.ravel()$/;"	v
 rowarr	older/olsfranke.py	/^rowarr          =       rowmat.ravel()$/;"	v
+rowmat	frankelasso.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 rowmat	frankeols.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+rowmat	frankeridge.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
 rowmat	older/olsfranke.py	/^colmat, rowmat  =       np.meshgrid(colsort, rowsort)$/;"	v
+rowsort	frankelasso.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
 rowsort	frankeols.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
+rowsort	frankeridge.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
 rowsort	older/olsfranke.py	/^rowsort         =       rand_row[sortrowindex]$/;"	v
+scl	frankelasso.py	/^import scipy.linalg as scl$/;"	I
 scl	frankeols.py	/^import scipy.linalg as scl$/;"	I
+scl	frankeridge.py	/^import scipy.linalg as scl$/;"	I
+skl	frankelasso.py	/^import sklearn.linear_model as skl$/;"	I
+sns	frankelasso.py	/^import seaborn as sns$/;"	I
+sns	frankeridge.py	/^import seaborn as sns$/;"	I
+sortcolindex	frankelasso.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
 sortcolindex	frankeols.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
+sortcolindex	frankeridge.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
 sortcolindex	older/olsfranke.py	/^sortcolindex    =       np.argsort(rand_col)$/;"	v
+sortrowindex	frankelasso.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
 sortrowindex	frankeols.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
+sortrowindex	frankeridge.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
 sortrowindex	older/olsfranke.py	/^sortrowindex    =       np.argsort(rand_row)$/;"	v
 surf	older/olsfranke.py	/^surf    =   ax.plot_surface($/;"	v
 testarrsze	frankeols.py	/^testarrsze=len(zarr_testz)$/;"	v
+var	frankelasso.py	/^var         =   np.zeros((len(_lambda), len(degrees)))$/;"	v
+var	frankeridge.py	/^var         =   np.zeros((len(_lambda), len(degrees)))$/;"	v
 vari	frankeols.py	/^vari    =   []$/;"	v
 variance_test	frankeols.py	/^    variance_test   =   np.mean(    np.var(ztest_pred, axis=1, keepdims=True)               )$/;"	v
+z_test	frankelasso.py	/^        z_test  = np.empty( (arrsze, k) )$/;"	v
+z_test	frankeridge.py	/^        z_test  = np.empty( (arrsze, k) )$/;"	v
+zarr	frankelasso.py	/^zarr            =       zmat.ravel()$/;"	v
 zarr	frankeols.py	/^zarr            =       zmat.ravel()#.reshape(-1, 1)$/;"	v
+zarr	frankeridge.py	/^zarr            =       zmat.ravel()$/;"	v
 zarr	older/olsfranke.py	/^zarr            =       zmat.ravel()$/;"	v
 zarr_pred	older/olsfranke.py	/^zarr_pred       =       X @ beta$/;"	v
+zarr_testz	frankelasso.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
 zarr_testz	frankeols.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
+zarr_testz	frankeridge.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
+zarr_trainz	frankelasso.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
 zarr_trainz	frankeols.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
+zarr_trainz	frankeridge.py	/^zarr_trainz, zarr_testz = train_test_split(zarr, test_size=1.\/k)$/;"	v
+zmat	frankelasso.py	/^zmat            =       zmat_nonoise + noiseSTR*noise$/;"	v
 zmat	frankeols.py	/^zmat            =       zmat_nonoise + noiseSTR*noise$/;"	v
+zmat	frankeridge.py	/^zmat            =       zmat_nonoise + noiseSTR*noise$/;"	v
 zmat	older/olsfranke.py	/^zmat            =       Frankefunction(rowmat, colmat) + noiseSTR*noise$/;"	v
+zmat_nonoise	frankelasso.py	/^zmat_nonoise    =       Frankefunction(rowmat, colmat)$/;"	v
 zmat_nonoise	frankeols.py	/^zmat_nonoise    =       Frankefunction(rowmat, colmat)$/;"	v
+zmat_nonoise	frankeridge.py	/^zmat_nonoise    =       Frankefunction(rowmat, colmat)$/;"	v
 zmat_pred	older/olsfranke.py	/^zmat_pred       =       zarr_pred.reshape(nrow, ncol)$/;"	v
-zshape	frankeols.py	/^zshape = zarr.reshape(-1,1)$/;"	v
+zpred	frankelasso.py	/^        zpred   = np.empty( (arrsze, k) )$/;"	v
+zpred	frankeridge.py	/^        zpred   = np.empty( (arrsze, k) )$/;"	v
+ztest	frankelasso.py	/^            ztest           =   zarr[testinds]$/;"	v
 ztest	frankeols.py	/^        ztest       =   zarr[testinds]$/;"	v
+ztest	frankeridge.py	/^            ztest           =   zarr[testinds]$/;"	v
 ztest_pred	frankeols.py	/^    ztest_pred  =   np.empty(   (testarrsze, k)  )$/;"	v
 ztests	frankeols.py	/^    ztests  =   np.empty(   (testarrsze, k)  )$/;"	v
+ztrain	frankelasso.py	/^            ztrain          =   zarr[traininds]$/;"	v
 ztrain	frankeols.py	/^        ztrain      =   zarr[traininds]$/;"	v
+ztrain	frankeridge.py	/^            ztrain          =   zarr[traininds]$/;"	v
