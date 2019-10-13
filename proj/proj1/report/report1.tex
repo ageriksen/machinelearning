@@ -149,12 +149,52 @@ but sets that diverge from the training are less and less in accordnance with th
 \end{algorithmic}
 \end{algorithm}
 
-While this method should produce great results for our known function, under normal 
+Over-fitting a model essentially refers to increasing the variance of the model so much so
+that random noise also enters the output. conversely, an under fitted function - one with a high
+bias - is a model with assumptions of the model regarding the output. The latter can ignore
+significant relations between input and output. There is a necessary tradeoff between these 
+two. Neither so biased, significant relations are lost, nor so high in variance that random 
+noise affects the model output. A further examination into this, can be made through the cost 
+function
+\begin{align}
+    & C(\mathbf{\hat{X}}, \vec{\beta}) 
+         = \frac{1}{n} \sum_{i=0}^{n-1}(y_i - \tilde{y}_i)^2
+         \,=\, \ev{(y- \tilde{y})^2} &\\
+    & y = f(x) + \epsilon \;\text{ and }\; f(x) \equiv f 
+     \text{ and } \ev{\epsilon} \equiv 0, var(\epsilon)\equiv \sigma^2 &\nonumber \\
+    & \ev{(y- \tilde{y})^2} = \ev{(y - \tilde{y} + \ev{\tilde{y}} - \ev{\tilde{y}})^2}
+        & \nonumber \\
+    & = \ev{ \qty( (f-\ev{\tilde{y}}) - (\tilde{y} - \ev{\tilde{y}}) + \epsilon^2 ) } 
+        & \nonumber \\
+    & = \ev{ (f-\ev{\tilde{y}})^2 }+ \ev{(\tilde{y} - \ev{\tilde{y}})^2} + \ev{\epsilon^2}
+        & \nonumber\\
+    &\;\;\;+\, 2\ev{\epsilon(f-\ev{\tilde{y}})} - 2\ev{\epsilon(\tilde{y} - \ev{\tilde{y}})}
+         & \nonumber \\
+    &\;\;\;-\, 2\ev{(f-\ev{\tilde{y}})(\tilde{y} - \ev{\tilde{y}}) } &\nonumber \\
+    & = \ev{ (f-\ev{\tilde{y}})^2 }+ \ev{(\tilde{y} - \ev{\tilde{y}})^2} + \ev{\epsilon^2}
+        & \nonumber\\
+    &\;\;\;-\, 2\ev{(f-\ev{\tilde{y}})}\ev{(\tilde{y} - \ev{\tilde{y}})}
+        & \nonumber\\
+    & = \ev{ (f-\ev{\tilde{y}})^2 }+ \ev{(\tilde{y} - \ev{\tilde{y}})^2} + \ev{\epsilon^2}
+        & \nonumber\\
+    &\;\;\;-\, 2(f-\ev{\tilde{y})}\ev{(\tilde{y}} - \ev{\ev{\tilde{y}})}
+        & \nonumber \\
+    & = \ev{ (f-\ev{\tilde{y}})^2 }+ \ev{(\tilde{y} - \ev{\tilde{y}})^2} + \ev{\epsilon^2}
+        & \nonumber\\
+    & = Bias[\tilde{y}] + Var[\tilde{y}] - \sigma^2
+\end{align}
+Where the bias for $\tilde{y}$ gives a systematic offshoot for the model mean vs. the true 
+function. Fitting the mean closer to the true function would reduce bias. Increasing the 
+complexity of the fitted function, would result in far greater deviation from the average
+value, which means the variance grows. finding the minimum between these 2 would help reduce
+the cost function, and ultimately the error of the fit. 
+
+Ordinary least squares can produce great results for a known function. Under normal 
 circumstances the distribution function is either unknown or nonexistent. An appropriate 
-example here could be measured terrain data. There is no overarching function decinding the 
-height of an area. As such, and especially so for large data sets, There is a need to control 
-the outcommes of our minized betas. Not to mention our minimization assumes the matrix
-$\mathbf{X}^T\mathbf{X}$ is non-singular, or in other words invertible. 
+example here could be measurements of height in terrain. There is no overarching function 
+decinding the height of an area. As such, and especially so for large data sets, There is a 
+need to control the outcommes of our minized betas. Not to mention our minimization assumes 
+the matrix $\mathbf{X}^T\mathbf{X}$ is non-singular, or in other words invertible. 
 Shrinking such "wild" coefficients would allow for a reduction in variance without much gain
 in bias. due to shrinking these coefficients, the following methods are also called 
 \textit{Shrinkage Methods}. 
@@ -299,10 +339,11 @@ set we plot here is the same one we use to train the model and test it's validit
 no variation in the polynomial we try to fit the function with. It might be in a sweet spot that 
 emulates the franke function, or we might have simply overfitted the model to the given data, 
 and if we were to provide a set which was not within the training data, the errors would grow
-markedly.
+markedly. It is also possible that we could enhance the fit further if we were to change the 
+complexity of the model further.
 
 The confidence interval of $\beta$ could provide some insight into the variance in the model. 
-The confidence interval gives a measurement of how far outfrom the chosen value you would have 
+The confidence interval gives a measurement of how far out from the chosen value you would have 
 to vary to be certain that a given percentage of the data was accounted for. 
 
 \begin{figure}
@@ -315,7 +356,55 @@ to vary to be certain that a given percentage of the data was accounted for.
     arrays without more than the index, and the 2. axis represents the coefficient values for
     the fit. These are dimensionless. 
 }
+\label{fig:frankeolsci}
 \end{figure}
+
+The interval is of a breadth that is not insignificant given the values of $\beta$, varying at 
+times up to about 30\% of the actual beta value.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ || c | c ||}
+\hline
+\hline
+MSE & $R^2$ \\          %output: run of "initialols.py"
+\hline                  %R^2 is:  0.8864615284145027
+0.0118 & 0.8865 \\      %MSE is:  0.011795609124713467
+\hline
+\hline
+\end{tabular} 
+\caption{
+    Mean squared error and $R^2$ function for the OLS fit of the franke function without 
+    resampling. The mean squared error is fairly small, but this is not strange considering
+    the fact that there is indeed a function creating the data. 
+}
+\label{tab:frankeolserror}
+\end{table}
+
+Calculating the mean squared error, or residual sum of squares, as seen in table 
+\ref{tab:frankeolserror} reveals that the relative error of the prediction lies at about 1\%, 
+and with an $R^2$ of nearly 90\% tells us that the variance seen is mostly predicted by the 
+model. Though this does not rule out overfitting since the calculations have been performed on 
+the same set we trained the model on. 
+
+
+With the implementation of f-fold cross validation, the degree ov overfitting vs. prediction can
+be examined further.
+
+\begin{figure}
+\includegraphics[scale=0.7]{frankeolsbiasvariance.png}
+\label{fig:frankeolsbiasvariance}
+\caption{
+    OLS fit of franke function with $k=5$ folds. the complexity along the 1. axis refers
+    to the polynomial degree of the fit, while the poorly named "MSE" axis depicts the 
+    numerical values of bias, variance and error. These measurements are made on varying test
+    sets, and as such is not a great representation of the model, but there is a definitive 
+    trend for bias to fall, while variance increases with model complexity.
+}
+\end{figure}
+
+
+
 
 \section{Conclusion}
     Conclusions and perspectives\\
