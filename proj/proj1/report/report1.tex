@@ -388,7 +388,7 @@ model. Though this does not rule out overfitting since the calculations have bee
 the same set we trained the model on. 
 
 
-With the implementation of f-fold cross validation, the degree ov overfitting vs. prediction can
+With the implementation of f-fold cross validation, the degree of overfitting vs. prediction can
 be examined further.
 
 \begin{figure}
@@ -403,8 +403,64 @@ be examined further.
 }
 \end{figure}
 
+As discussed above, we can see in figure \ref{fig:frankeolsbiasvariance} that the model's 
+bias decreases with increasing model complexity, while the variance grows. Though this is 
+hardly an ideal image, and the results being compared aren't based on a common set, but 
+rather the test set at each round in the k-fold rotation. This makes the values shown, such 
+as the error highly suspect. the plot does showcase the expected trends in bias and variance, 
+however. And this was the main point in this stage. \\
 
+In order to better fit a model for which there is no known function governing the outputs, 
+the shrinkage methods discussed above are better suited. And the added bonus of shrinking the
+output along axes not imediately along the prime axes of $\mathbf{X}$ does produce far neater 
+gradient along a surface projected by the model. Implementing the Ridge regression method for 
+the values and thus adding the super parameter $\lambda$ to the mix, allows us to create a 
+heatmap of the error for the various $\lambda$'s and degrees of complexity.
 
+\begin{figure}
+\includegraphics[scale=0.7]{frankeridgemseheatmap.png}
+\label{fig:frankeridgemseheatmap}
+\caption{
+    Heatmap of the MSE for Ridge Regression of the franke function for various $\lambda$ and 
+    degrees of complexity in the fit. The error here seems to range from 1\% to roughly 3\%, 
+    with the greatest errors towards the simplest it and the lowest hyper parameter. This is 
+    in accordnance with the expectation for prediction error, as the error plotted is essentially
+    the training error. As we approach greater complexity, the variance also increases, as seen
+    in figure \ref{fig:frankeridgevarianceheatmap}, the variance quickly explodes. 
+}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.5]{frankeridgevarianceheatmap.png}
+\label{fig:frankeridgevarianceheatmap}
+\caption{
+    Heatmap of the variance for Ridge regression of the franke function over various 
+    $\lambda$ and degrees of complexity. As one would expect, the variance is least when 
+    the polynomial degree of the model is low, and for the greatest shrinkage of $\lambda$, 
+    though the latter has a weaker effect, as it per definition shrinks the lower variance 
+    elements. 
+}
+\end{figure}
+
+As we can se in figure \ref{fig:frankeridgemseheatmap}, the error falls of greatly with
+increasing polynomial degree for the fit, and for lower shrinkage $\lambda$. This is not
+not unexpected, given the franke function is an actual continuous function. Therefore, the
+closest fit is without shrinkage. The continuous lowering of the error as we increase in
+complexity speaks to the fact that the heatmap is made from the training data, and as such 
+we see the downward trend of fit for the training set, and not the actual predictions of the 
+functions. \\
+
+Implementing the Lasso method for the franke function, the minimization is a lot more challenging
+than with the linear case. As such, the pythno scikitlearn library was utilized for the fit and
+prediction of the model here. 
+
+\begin{figure}
+\includegraphics[scale=0.7]{frankelassomseheatmap.png}
+\label{fig:frankelassomseheatmap}
+\caption{
+    
+}
+\end{figure}
 
 \section{Conclusion}
     Conclusions and perspectives\\
