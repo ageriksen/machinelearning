@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{graphicx}
+\graphicspath{{../graphics/} }
 
 \title{Ordinary least squares regression of Franke's function}
 %\subtitle{subtitle here}
@@ -152,10 +154,8 @@ circumstances the distribution function is either unknown or nonexistent. An app
 example here could be measured terrain data. There is no overarching function decinding the 
 height of an area. As such, and especially so for large data sets, There is a need to control 
 the outcommes of our minized betas. Not to mention our minimization assumes the matrix
-$\mathbf{X}^T\mathbf{X}$ is non-singular, or in other words is invertible. We need to control
-for abberrant $\beta$'s so as to curb some of the variance we could see on large datasets from 
-cancelling pairs of positive and negative coefficients. 
-Shringing such "wild" coefficients would allow for a reduction in variance without much gain
+$\mathbf{X}^T\mathbf{X}$ is non-singular, or in other words invertible. 
+Shrinking such "wild" coefficients would allow for a reduction in variance without much gain
 in bias. due to shrinking these coefficients, the following methods are also called 
 \textit{Shrinkage Methods}. 
 
@@ -270,6 +270,53 @@ github page.
     o   Make sure figures and tables contain enough information in their captions. 
         Axis labels, etc. A reader should be able to get a first impression of the work
         by purely studying the figures and tables. \\
+
+First order of business was to generate input variables and generate the simulated output of
+the franke function before adding noise. Following this, the initial OLS fit. One way to 
+visualize the franke output is through a surface plot using matplotlib's 3d axis functionality.
+
+\begin{figure}
+\includegraphics[scale=0.6]{frankesurface.png}
+\caption{
+    surface plot of the franke function(left) and the ordinary least squares fit(right), 
+    without resampling. The model is trained on the entire set with the franke function 
+    added stochastic noise.
+    The overall structure of the surface is maintained, as well as the heights. There are 
+    some sharper peaks in the Franke function surface compared to the fit, but the fit is
+    faithful.
+}
+\label{fig:frankesurface}
+\end{figure}
+
+Figure \ref{fig:frankesurface} shows the surface plot of the franke function and the OLS fit. 
+Before the fit, a stochastic noise is added to the franke function and the model then tries to
+find the function underneath the noise. As the image shows, there is a good overlap of the 
+franke function and the fit. This is an expected result given the existance of a continuous 
+function behind the surfacem which is what regression methods try to find. 
+
+There are still some discrepancies between the franke function and the OLS fit. In addition, the 
+set we plot here is the same one we use to train the model and test it's validity. There is also 
+no variation in the polynomial we try to fit the function with. It might be in a sweet spot that 
+emulates the franke function, or we might have simply overfitted the model to the given data, 
+and if we were to provide a set which was not within the training data, the errors would grow
+markedly.
+
+The confidence interval of $\beta$ could provide some insight into the variance in the model. 
+The confidence interval gives a measurement of how far outfrom the chosen value you would have 
+to vary to be certain that a given percentage of the data was accounted for. 
+
+\begin{figure}
+\includegraphics[scale=0.7]{frankeci.png}
+\caption{
+    Confidence interval of the $\beta$ values for the OLS fit sans any resampling. 
+    The interval shows the range in order to include 96\% of the target values. There are 
+    areas with a wider band, and the difference seems to be up to nearly 30\% of the given 
+    $\beta$ value. The axis dimensions here are generally omited, as the 1. axis follows the 
+    arrays without more than the index, and the 2. axis represents the coefficient values for
+    the fit. These are dimensionless. 
+}
+\end{figure}
+
 \section{Conclusion}
     Conclusions and perspectives\\
     o   State main findings and interpretations \\
