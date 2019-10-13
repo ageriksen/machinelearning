@@ -488,6 +488,35 @@ appear to be wrong, considering $\lambda \in [0.01, 0.1]$. What the numbers alon
 mean I do not know. The complexity seems to work accordingly, if slightly off when starting at 0.
 
 
+With the snafu of axes mentioned, it is time to move onto the proper geographical data. There was
+an issue regarding my system's native browser and the verification used by the website for 
+registration Therefore, I used the files found in the course github repository instead. 
+Furthermore, in order to cut down on computation time for the lacking processing power of the 
+current computer, only a slice of about 100 by 100 was used from the data. 
+
+The OLS fit of the data went smoothly enough, producing a fit to the provided dat, which were 
+less accurate than the tests with the franke function. 
+
+\begin{figure}
+\includegraphics[scale=0.7]{nordatasurface.png}
+\label{fig:nordatasurface}
+\caption{
+    We see that the major upwards trends for the fit align decently with the provided sample, 
+    though we see a distinct lack in the finer details of the landscape. The model was made using 
+    a complexity 5th order polynomial.
+}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.7]{nordataolsbiasvariancemse.png}
+\label{fig:nordataolsbiasvariancemse}
+\caption{
+    A plot of the errors of an OLS fit to terrain data. As with previous figures, this one
+    is made with points found within different sets. As such, the values and shape of the 
+    total arrays, are less trustworthy. There is a definitive trend towards bias lowering, 
+    and variance increasing witht eh increase in complexity. 
+}
+\end{figure}
 
 \section{Conclusion}
     Conclusions and perspectives\\
