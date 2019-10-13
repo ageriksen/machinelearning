@@ -59,6 +59,7 @@ a sum of weighted exponents.
     +   &\frac{1}{2} \exp{ - \frac{(9x \,-\, 7)^2}{4}    \,-\, \frac{(9y \,-\, 3)^2}{4} }
     \nonumber \\
     -   &\frac{1}{5} \exp{ -       (9x \,-\, 4)^2        \,-\,       (9y \,-\, 7)^2     }
+    \label{eq:franke}
 \end{align}
 
 To generate the data, one can create a uniformly distributed set of initial values ordered 
@@ -80,6 +81,7 @@ combination of the input parameters x and y.
 \ENDFOR
 \ENDFOR
 \end{algorithmic}
+\label{alg:design}
 \end{algorithm}
 
 Next is to fit the model. The linear model, taken from Hastie et al\cite{}, predicts the 
@@ -104,6 +106,7 @@ If we write this in vector notation, differentiate w.r.t $\beta$ we get the so-c
     &    \mathbf{X}^T(\vec{y} \,-\, \mathbf{X}\beta) = 0 \nonumber \\
     &\text{given non-singular $\mathbf{X}^T\mathbf{X}$:} \nonumber \\
     & \hat{\beta} = \qty(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\,\vec{y}.
+    \label{eq:minbeta}
 \end{align}
 
 A prediction can then be made of the values $Y$ given our $\beta$ and $\mathbf{X}$ with
@@ -116,11 +119,143 @@ well the model predicts the data. Our wish, however, is to predict data of the s
 "source" as our known data. As such, we could get arbitrarily like the known data by 
 increasing the complexity of the polynomial we use to fit the input. This will, however cost us
 generality. Any data outside the data we use to specifically fit the model is unlikely to fall 
-within the model's prediction. This bias is something we need to avoid.
+within the model's prediction. This bias is something we need to avoid.\\
 
 To this effect, we can implement a sectioning of the available data so that we can use parts of
 the set to "train" our model and a separate part as a "test" or "validation".
-The meethod chosen is called \textit{k-fold Cross Validation} (k-fold CV)
+The meethod chosen is called \textit{k-fold Cross Validation} (k-fold CV).
+The data set is split into $k$ different "folds". Then, on a rotation, 1 fold is designated as
+the "test" fold and the remaining folds are designated "training". The model if fitted to the 
+training set and then tested on the validation set. One can then plot the MSE for the training 
+and test folds side by side, over different degrees of model complexity. What one should expect
+to see here, is at one point the errors diverge between the training and test sets due to 
+over-fitting. As mentioned above, the model predicts closer and closer the set used to train, 
+but sets that diverge from the training are less and less in accordnance with the model.
+\begin{algorithm}
+\caption{k fold split based on input data $\vec{x}$ }
+\begin{algorithmic}
+\STATE  make index array ($inds$) with elements from $0$, to the length of $\vec{x}$
+\STATE  randomize $inds$ and partition into k folds of size $length(\vec{x})/k$, 
+\STATE  gather into array of arrays $k, length(\vec{x})/k$ of indices, $folds$
+\FOR{ $fold \;in; folds$ }
+\STATE  $test = input[fold]$
+\STATE  $train = input[!fold]$
+\STATE  find $\beta$ as in eq(\ref{eq:minbeta}) using $train$
+\STATE  $predict$ output using $\beta$
+\STATE  compare $predict$ and $test$ as well as $predict$ and $train$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+While this method should produce great results for our known function, under normal 
+circumstances the distribution function is either unknown or nonexistent. An appropriate 
+example here could be measured terrain data. There is no overarching function decinding the 
+height of an area. As such, and especially so for large data sets, There is a need to control 
+the outcommes of our minized betas. Not to mention our minimization assumes the matrix
+$\mathbf{X}^T\mathbf{X}$ is non-singular, or in other words is invertible. We need to control
+for abberrant $\beta$'s so as to curb some of the variance we could see on large datasets from 
+cancelling pairs of positive and negative coefficients. 
+Shringing such "wild" coefficients would allow for a reduction in variance without much gain
+in bias. due to shrinking these coefficients, the following methods are also called 
+\textit{Shrinkage Methods}. 
+
+One such, is Ridge regression. Here, we add a parameter $\lambda$, so that 
+\begin{align}
+    \hat{\beta}^{ridge} &\,=\, 
+    argmin\qty{ \sum_{i=1}^N (y_i - \beta_0 - \sum_{j=1}^p(x_{ij}\beta_j) )^2 
+        \;+\; \lambda \sum_{j=1}^p \beta_j^2 }\label{eq:baseridge} \\
+    \lambda &\geq 0. \nonumber
+\end{align}
+A large $\lambda$ means that $\hat{\beta}$ experiences a greater shrinkage in order to fit.
+A point also, is that $\beta_0$ is not penalized like this. If we were to center the results, 
+so that we do not fit for $x_{ij}$, but for $x_{ij} - \overline{x}_j$ and $\beta_0$ by 
+$ \overline{y} = \frac{1}{N} \sum_1^N y_i$. %RSS == Residual Sum of Squares
+Centering the data like this allows the rewrite of (\ref{eq:baseridge}) to matrix form
+with the residual sum of squares
+\begin{align}
+    RSS(\lambda) \,=\, (\vec{y} - \mathbf{X}\beta)^T (\vec{y} - \mathbf{X}\beta)
+        +   \lambda \beta^T\beta, \\
+    \text{with a ridge regression solution of:}\nonumber \\
+    \beta^{ridge} \,=\, (\mathbf{X}^T\mathbf{X} \,+\, \lambda \mathbf{1})^{-1}\mathbf{X}^T\vec{y}
+    \label{eq:ridgesol}
+\end{align}
+And with the added diagonal, we essentially avoid a singular $\mathbf{X}^T\mathbf{X}$.\\
+
+Should the matrix $\mathbf{X}^T \mathbf{X}$ be singular there is still a way to invert it, 
+using singular value decomposition (SVD). This method expresses a matrix as an inner product 
+of 3 different matrices\cite{}%eq. (3.45} Hastie et al. 
+\begin{align}
+    \mathbf{X} \,=\, \mathbf{U}\mathbf{D}\mathbf{V}^T.\label{eq:svdX}
+\end{align}
+here, if $\mathbf{X}$ is a $n\cross p$ matrix, then $\mathbf{U}$ is an $n \cross n$ matrix, 
+$\mathbf{D}$ is an $n\cross p$ matrix, and $\mathbf{V}$ is a $p\cross p$ matrix. $\mathbf{D}$
+is a diagonal matrix, whose diagonal values are called the singular values of $\mathbf{X}$.
+If any of $d_{i,i}=0$ then $\mathbf{X}$ is singular. 
+
+With some simplification, it can be shown,
+\begin{align}
+    \mathbf{X}\beta  \;&=\; \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\, \vec{y}
+    \nonumber \\
+                       &= \;\ldots\nonumber \\
+                       &= \mathbf{U}\mathbf{U}^T \, \vec{y}
+\end{align}
+Which we can send into the ridge solutions (\ref{eq:ridgesol}) so
+\begin{align}
+    \mathbf{X}\hat{\beta}^{ridge} \,&=\, 
+    \mathbf{X}(\mathbf{X}^T\mathbf{X} \,+\,\lambda \mathbf{1})^{-1}\mathbf{X}^T \vec{y}
+    \nonumber \\
+    &= \mathbf{U}\mathbf{D}(\mathbf{D}^2 
+    \,+\,\lambda \mathbf{1})^{-1}\mathbf{D}\mathbf{U}^T \vec{y}
+    \nonumber \\
+    &= \sum_{j=1}^p \vec{u}_j \frac{d_j^2}{d_j^2 + \lambda} \vec{u}_j^T \vec{y}.
+\end{align}
+Here, $\vec{u}_j$ are the collumn vectors of $\mathbf{U}$, and $d_j$ are the singular values 
+of $\mathbf{X}$, the diagonal elements of $\mathbf{D}$. As the parameter $\lambda \geq 0$, the
+fraction $\frac{d_j^2}{d_j^2 + \lambda} \leq 1$, and the $\beta$'s will be shrunk in accordance
+with the size of the singular values. The collumns of $\mathbf{V}$ from (\ref{eq:svdX}) form the
+so-called \textit{principal component directions} of $\mathbf{X}$. The first of these, has the 
+property where $z_1 = \mathbf{X}v_1$ has the larges sample variance. amongst all normalized
+collumns of $\mathbf{x}$
+\begin{align}
+    Var(\vec{z}_1) = Var(\mathbf{X}\vec{v}_1) = \frac{d_1^2}{N},
+\end{align}
+and further, $\vec{z}_1 = \vec{u}_1\,d_1$. $\vec{z}_1$ is the first principal component of 
+$\mathbf{X}$, making $\vec{u}_1$ the \textit{normalized} first principal component. subsequent 
+principal components have similar variance $\vec{z}_j = \frac{d_j^2}{N}$ and are orthogonal to
+the previous. The last principal component sports the lowest variance.
+
+$\mathbf{X}$ projects the output $Y$ with greater variance along the prior principal component
+directions rather than the latter. A surface plot along these projections will then have less 
+variance in the gradient along the axes of greater projected variance. Ridge regression shrinks 
+the lower variance and screens the output from the gradient variance.
+
+The assumption behind this is that the response should vary most along the direction of greatest
+variance of the input. This is not in general true, but inputs are often chosen to study because 
+the output vary along with them.\\
+
+Another way to shrink the coefficients in $beta$ is with minimizing with a restriction 
+\begin{align}
+    \hat{\beta}^{lasso} = argmin\qty{ 
+        \frac{1}{2}\sum_{i=1}^N \qty(y_i \,-\, \beta_0 \,-\, \sum_{j=1}^p x_{ij}\beta_j)^2
+        \;+\; \lambda\sum_{j=1}^p \abs{\beta}  }.\label{eq:baselasso}
+\end{align}
+Where the main difference here is the sum of $\abs{\beta}$ rather than $\beta^2$ as in ridge
+(\ref{eq:baseridge}). The main difference here, is that there is now a non-linear solution with
+$y_i$. This also means that there is no closed-form solution, and the computation is therefore 
+far more taxing. There are libraries which solve this at roughly the same computational cost as 
+ridge, however. In this example, the library used is python's scikitlearn.
+\cite{}%scklearn homepage
+
+The implementation of both ridge and lasso amounts to little change in comparrison to the 
+standard OLS with f-fold CV. Mainly the calculation of $\beta$ as well as a rewrite of the 
+inversion method into SVD to be more accurate, though at some cost to the calculation time. 
+
+These three methods can then be tested and controlled on the generated set of data, fitted with
+the Franke function(\ref{eq:franke}). Once the results have been verified to some degree, a set
+of proper measured data can be used to train the models. These data are gathered from 
+\cite{} % homepage earthexplorer
+
+
 
 \section{Results}
     The results and discussion of such\\
