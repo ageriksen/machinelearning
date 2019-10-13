@@ -450,17 +450,44 @@ complexity speaks to the fact that the heatmap is made from the training data, a
 we see the downward trend of fit for the training set, and not the actual predictions of the 
 functions. \\
 
-Implementing the Lasso method for the franke function, the minimization is a lot more challenging
-than with the linear case. As such, the pythno scikitlearn library was utilized for the fit and
-prediction of the model here. 
+Implementing the Lasso method for the franke function, the lack of a closed form solution makes
+the lasso implementation a lot more challenging than with the linear case. As such, python 
+scikitlearn library was utilized for the fit and prediction of the model here. 
 
 \begin{figure}
 \includegraphics[scale=0.7]{frankelassomseheatmap.png}
 \label{fig:frankelassomseheatmap}
 \caption{
-    
+    Heatmap from the Lasso method on a fit for the franke function. The 1. axis is the model
+    complexity, while the 2. axis follows the hyperparameter $\lambda$. There is a tendency
+    towards the minimization of the error with lower lambdas and greater complexity, as seen
+    with the other methods. The nonlinearity of the solution shows in the large error seen
+    with lambda greater than 30. here, the error is uniformly 10\% and up. There is a more 
+    gradual improvement as the lambda variables near 0, wih a continuing trend along the increase
+    in complexity for the model. we see the same inversion between the error and variance between
+    the error heatmap and the variance in figure \ref{fig:frankelassovarianceheatmap} as we see
+    between the mse and vairance heatmaps of the ridge case. 
 }
 \end{figure}
+
+\begin{figure}
+\includegraphics[scale=0.7]{frankelassovarianceheatmap.png}
+\label{fig:frankelassovarianceheatmap}
+\caption{
+    heatmap of the variance of the fit of Lasso to the franke function data set. There is 
+    a definitive increase in the variance as $\lambda$ approaches 0. 
+}
+\end{figure}
+
+There is then a clear assosiation along the trends one would expect when fitting an existing 
+function using regression methods. There are discrepancies, but they are likely from mismatch
+between the various data sets used to construct the averages displayed. 
+
+One thing that needs to be mentioned, is the 2. axis for the heatmaps. I don't know why, but they
+appear to be wrong, considering $\lambda \in [0.01, 0.1]$. What the numbers along the 2. axis 
+mean I do not know. The complexity seems to work accordingly, if slightly off when starting at 0.
+
+
 
 \section{Conclusion}
     Conclusions and perspectives\\
