@@ -92,6 +92,7 @@ zarr            =       zmat.ravel()
 k           =   5
 degrees     =   np.arange(1, 16)
 _lambda     =   np.logspace(-1.7, -1)
+print('\n_lambda array:\n', _lambda, '\n')
 
 kfold       =   KFold(  n_splits=k, shuffle=True, random_state=5  )
 

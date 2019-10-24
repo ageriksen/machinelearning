@@ -117,7 +117,7 @@ plt.show()
 
 # Seems like the best complexity lies in 2. thus, 
 
-X       =   Designmatrix(x, y, 2) 
+X       =   Designmatrix(x, y, 5) 
 beta    =   np.linalg.inv(X.T @ X) @ X.T @ z
 zpred   =   X @ beta
 zpred   =   np.reshape(zpred, xmat.shape)
