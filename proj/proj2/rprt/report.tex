@@ -1,0 +1,125 @@
+%\documentclass[ 12pt, a4paper ]{article}
+\documentclass[12pt, a4paper]{scrartcl}
+
+%packages
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+
+\title{Project 2: Classification and Regression}%, from linear and logistic regression to neural networks}
+\subtitle{from linear and logistic regression to neural networks}
+
+\author{Anders Eriksen}
+\date{}
+
+%//////////////////////
+\begin{document}
+%=====
+%table of contents, list of figs and content
+\maketitle
+\tableofcontents
+%=====
+\begin{abstract}
+    The main summary of the work
+\end{abstract}
+
+\section{introduction}
+    aims and rationale of the physics case, what you've done as well as a brief summary of 
+the report \\
+    o   Motivate the reader\\
+    o   What done\\
+    o   Structure of report\\
+\section{Methods}
+    Theoretical models and technicalities. \\
+    o   describe methods and algorithms\\
+    o   explain implementation of methods and say something about the structure of
+        algorithm and present parts of code\\
+    o   Plug in some calculations to test code, such as selected runs used to validate and
+        verify results. Latter extremely important. Reader needs to know that your code
+        reproduces selected benchmarks and reproduces previous results, either numerical 
+        and/or well-known closed-form expressions. \\
+
+   The main aim here is to study both classification and regression problems. With an intention to 
+reuse the regression algorithms studied in project 1 of the course, \cite{project1}. Further we include logistic regression
+for classification problems. Additinally implementing multilayer perception code for both regression and 
+classification problems. Mean squared error, cross validation algorithm as well as the R2 or the accuracy 
+score for classification can be utilized here. \\
+
+    The data sets used are terrain data from the previous project as well as UCI's credit card data set. These 
+are for the regression and classification respectively. %THESE DATA SETS ARE MERELY SUGGESTIONS. PERHAPS SOMETHING
+%ON THE ISING MODEL, OR QUANTUM DOTS. An example for regression is the so-called "Wisconsin Cancer data" - a binary
+%problem, beningn or malignant tumor - This set has several examples.
+\\
+
+    The first point of order is to familiarize ourselves with the data. Import and organize the set to gain some 
+idea about the shape, size and layout of the data. Following this comes defining the cost function and design matrix.
+These should be mostly the same as during the first project, \cite{project1}. A gradient descent method would also likely be 
+helpfull here, as well as further on in the project. This method could also be compared to scikitlearn's modules. \\
+
+    In order to measure the preformance in the classification problem a so-called \textit{Accuracy score} is used. This is 
+the number of correct guessed targets $t_i$ over the total number of targets. A perfect classifier would yield an accuracy of 1.
+\begin{align}
+    Accuracy \,=\, \frac{ \sum_{i_1}^n I\qty( t_i = y ) }{ n }.
+\label{eq:accuracy}
+\end{align}
+I here is an indicator function returning 1 if $t_i = y$ and 0 otherwise in this instance of a binary classification. $y_i$ 
+is the output of the Logistic Regression code. The accuracy can be compared with the scikitlearn for performance benchmarking. \\
+
+
+    Once the groundwork is laid, we can begin work on a feed forward neural network. The back propagation algorithm based on course
+slides, \cite{slides}, 
+\begin{algorithm}
+\caption{back propagation algorithm}
+\begin{algorithmic}
+\FOR{ $i=0$ \TO $i=n$ }
+\STATE Iterate
+\ENDFOR
+\end{algorithmic}
+\label{algo:backpropagation}
+\end{algorithm}
+
+    Once the algorithm is in place, a discussion of cost function is advised. 
+
+
+\section{Results}
+    The results and discussion of such\\
+    o   Present results \\
+    o   Give critical discussion of you work \& place it in correct context\\
+    o   Relate work to other calculations/studies\\
+    o   Reader should be able to reproduce calculations should they wish to do so. 
+        All input variables should be properly explained. \\
+    o   Make sure figures and tables contain enough information in their captions. 
+        Axis labels, etc. A reader should be able to get a first impression of the work
+        by purely studying the figures and tables. \\
+\section{Conclusion}
+    Conclusions and perspectives\\
+    o   State main findings and interpretations \\
+    o   Try as far as possible to present perspectives for future work. \\
+    o   Try to discuss the pros and cons of the methods and possible improvements. \\
+\section{Appendix}
+    any extra material \\
+    o   Additional calculations used to validate code. \\
+    o   Selected calculations. Can be listed with few comments. \\
+    o   Listing of code if necessary. \\
+    Consider moving parts from methods to appendix. A webpage is also an appropriate place
+    for a lot of this type of info. \\\\
+
+%bibliography
+ %References
+    o   Always reference material you base your work on, either scientific articles/reports
+        or books. \\
+    o   Refer to articles as: name(s) of author(s), journal, volume(Bold), page and year in
+        parenthesis. \\
+    o   Refer to bookds as: name(s) of author(s), title of book, publisher, place and year, 
+        eventual page numbers. \\
+
+\bibliography{proj2bib}
+\end{document}
+%/////////////////////
+
+
