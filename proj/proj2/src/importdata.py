@@ -23,55 +23,37 @@ class dataimport:
             index=str, 
             columns={"default payment next month": "defaultPaymentNextMonth"},
             inplace=True)
-
         
-    def finddata(self, trainshare=0.5, seed="NaN"):
-        #features and targets
+        print("\ndatafile:\n", self.df)
+
         self.X = self.df.loc[ :, self.df.columns != 'defaultPaymentNextMonth'].values
         self.y = self.df.loc[ :, self.df.columns == 'defaultPaymentNextMonth'].values
-        
-        onehotencoder = OneHotEncoder(categories="auto")
-        self.X = ColumnTransformer(
-            [("", onehotencoder, [3]),],
-            remainder="passthrough"
-        ).fit_transform(self.X)
-        
-        self.y.shape
 
-        if type(seed) != str:
-            self.Xtrain, self.Xtest, ytrain, ytest = train_test_split(
-                    self.X, self.y, train_size=trainshare, random_state=seed)
-        else:
-            self.Xtrain, self.Xtest, ytrain, ytest = train_test_split(
-                    self.X, self.y, train_size=trainshare)
+        print("\nInitial design matrix X:\n", self.X)
+        onehotencoder = OneHotEncoder(categories="auto")
         
-        self.df = self.df.drop(self.df[
-            (self.df.BILL_AMT1 == 0) &
-            (self.df.BILL_AMT2 == 0) &
-            (self.df.BILL_AMT3 == 0) &
-            (self.df.BILL_AMT4 == 0) &
-            (self.df.BILL_AMT5 == 0) &
-            (self.df.BILL_AMT6 == 0)].index
-            )
-            
-        self.df = self.df.drop(self.df[
-            (self.df.PAY_AMT1 == 0) &
-            (self.df.PAY_AMT2 == 0) &
-            (self.df.PAY_AMT3 == 0) &
-            (self.df.PAY_AMT4 == 0) &
-            (self.df.PAY_AMT5 == 0) &
-            (self.df.PAY_AMT6 == 0)].index
-            )
-            
+        onehotinds = [1, 2, 3, 5, 6, 7, 8, 9, 10]
+        self.X = ColumnTransformer(
+            [("", onehotencoder, onehotinds),],
+            remainder="passthrough"
+        ).fit_transform(self.X).todense()
+
+        self.y.shape
+    
+        trainshare=0.5
+        self.Xtrain, self.Xtest, ytrain, ytest = train_test_split(
+                self.X, self.y, train_size=trainshare)
+
+        #scaling continuous variables fitted to training data
+        self.sc = StandardScaler()
+        self.Xtrain[-12:] = self.sc.fit_transform(self.Xtrain[-12:])
+        self.Xtest[-12:] = self.sc.transform(self.Xtest[-12:])
+
+        print("\ntraining data, X shape:", self.Xtrain.shape, "\nlast 8 columns, 3 rows:\n", self.Xtrain[0:3, -8:])
+        
     def MSE(x, xpred):
         self.MSE = 1/len(xpred) * np.linalg.norm( x - xpred )**2
         return self.MSE
-
-
-    def printhello(self):
-        print("Hello world")
-
-
 
 #//////////////////////////
 if __name__ == "__main__":
@@ -79,11 +61,10 @@ if __name__ == "__main__":
     import os
     import numpy as np
     
-    from sklearn.preprocessing import OneHotEncoder
+    from sklearn.preprocessing import OneHotEncoder, StandardScaler
     from sklearn.compose import ColumnTransformer
     from sklearn.model_selection import train_test_split
     
     import numpy as np
 
     dat = dataimport('../rsrc/defaultofcreditcardclients.xls')
-    dat.finddata()
