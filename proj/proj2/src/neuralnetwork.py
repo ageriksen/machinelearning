@@ -17,10 +17,6 @@ class neural:
                 np.random.normal(0, 0.5, (1, self.layers[i+1], 1) )
                 )
     
-    def train(self, epochs, batchsze):
-        """
-        epochs = integer, # of forward feed. back propagation "runs" on the training set
-        """
         for e in epochs:
             for n in batches:
                 X = dims(batchsze, features)
@@ -37,7 +33,7 @@ class neural:
 
     def activation(z):
         """
-        softmax function
+        sigmoid function
         """
         return 1/( 1 + np.exp(-x) )
 
